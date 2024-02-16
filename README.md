@@ -1,16 +1,145 @@
-# mem_store_client
+# Meme store client
 
-Meme store client
+## feed
 
-## Getting Started
+### Get /feed
 
-This project is a starting point for a Flutter application.
+Query params
 
-A few resources to get you started if this is your first Flutter project:
+- offset
+- limit
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+```json
+{
+  "images" : [{
+    "id" : 0,
+    "name" : "",
+    "url" : "",
+    "tags" : [{
+      "id" : 0,
+      "name" : ""
+    }],
+    "isFavorite" : true
+  }]
+}
+```
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## meme
+
+### Get /meme
+
+```json
+{
+  "id" : 0,
+  "name" : "",
+  "url" : "",
+  "tags" : [{
+    "id" : 0,
+    "name" : ""
+  }],
+  "isFavorite" : true
+  "author" : {
+    "id" : 0,
+    "name" : "",
+    "profileImage" : ""
+  }
+}
+```
+
+### Post /meme
+
+```json
+{
+  "name" : "",
+  "tags" : [{
+    "id" : 0,
+    "name" : ""
+  }],
+  "image" : "multipart"
+}
+```
+
+### Get /meme/tags
+
+```json
+{
+  "tags" : [{
+    "id" : 0,
+    "name" : ""
+  }]
+}
+```
+
+## library
+
+### Get /library
+
+Query params
+
+- offset
+- limit
+
+```json
+{
+  "images" : [{
+    "id" : 0,
+    "name" : "",
+    "url" : "",
+    "tags" : [{
+      "id" : 0,
+      "name" : ""
+    }],
+    "isFavorite" : true
+  }]
+}
+```
+
+## favorite
+
+### Get /favorite
+
+```json
+{
+  "images" : [{
+    "id" : 0,
+    "name" : "",
+    "url" : "",
+    "tags" : [{
+      "id" : 0,
+      "name" : ""
+    }],
+    "isFavorite" : true
+  }]
+}
+```
+
+### Post /favorite
+
+```json
+{
+  "id" : 0,
+  "boardId" : 0
+}
+```
+
+### Get /favorite/boardsList
+
+```json
+{
+  "id" : 0,
+  "name" : ""
+  
+}
+```
+
+### Get /favorite/boards
+
+```json
+{
+  "id" : 0,
+  "name" : "",
+  "image" : "url",
+  "age" : 0,
+  "imageCount" : 0
+}
+```
