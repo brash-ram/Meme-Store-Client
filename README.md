@@ -37,7 +37,7 @@ Query params
     "id" : 0,
     "name" : ""
   }],
-  "isFavorite" : true
+  "isFavorite" : true,
   "author" : {
     "id" : 0,
     "name" : "",
