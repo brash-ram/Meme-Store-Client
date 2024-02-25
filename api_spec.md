@@ -336,7 +336,7 @@ Where:
   [`Tenant`](#tenant--modelobject) owner has been listed as extremist.
   > Editor note: For users from Russia this will prevent further loading
   > of gallery.
-- `current_tenant_can_edit` is a boolean flag indicating wether current tenant
+- `current_tenant_can_edit` is a boolean flag indicating whether current tenant
   has edit access to this gallery.
 
 ## Endpoints
@@ -433,7 +433,7 @@ Issue authorization token for managed tenant.
 
 > Editor note:
 >
-> This method issues token without any checks except for wether user is managed
+> This method issues token without any checks except for whether user is managed
 > by corresponding service tenant.
 > Any service API should be guarded, but this method is especially dangerous
 > and API implementers should take notice.
@@ -515,7 +515,7 @@ Delete an existing [`Gallery`](#gallery--modelobject).
 
 **Returns:**
 
-* boolean flag indicating wether gallery was deleted or not.
+* boolean flag indicating whether gallery was deleted or not.
   > Editor note: always `true`, otherwise error is raised, e.g. permissions
   > issue.
 
@@ -663,7 +663,7 @@ Delete an existing [`Meme`](#meme--modelobject).
 
 **Returns:**
 
-* boolean flag indicating wether meme was deleted or not.
+* boolean flag indicating whether meme was deleted or not.
   > Editor note: false unless deleted from recycle bin.
 
 ----
