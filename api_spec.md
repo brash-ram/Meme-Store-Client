@@ -667,6 +667,22 @@ Delete an existing [`Meme`](#meme--modelobject).
   > Editor note: false unless deleted from recycle bin.
 
 ----
+#### `GET` `/meme/<gallery_id>_<id>/tags`
+
+Retrieve tags of an existing [`Meme`](#meme--modelobject).
+
+**URI parameters**:
+
+* `gallery_id` is an ID of [`Gallery`](#gallery--modelobject) this meme is
+  accessed via.
+  > Editor note: This simplifies access management for API implementers.
+* `id` is an ID of requested [`Meme`](#meme--modelobject).
+
+**Returns**:
+
+* Array<[`MemeTag`](#memetag--tag)>.
+
+----
 #### `POST` `/meme/<id>/vote/<tag_id>`
 
 Create a new [`Meme`](#meme--modelobject).
@@ -690,7 +706,7 @@ Non-existing tags are automatically created.
 
 **Returns:**
 
-* [`Meme`](#meme--modelobject).
+* Array<[`MemeTag`](#memetag--tag)>.
 
 ### Tenants
 
