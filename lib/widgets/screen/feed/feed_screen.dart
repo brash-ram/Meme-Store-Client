@@ -7,9 +7,8 @@ class FeedScreen extends StatelessWidget {
   const FeedScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
+  Widget build(BuildContext context) => Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.surface,
       body: Feed(),
     );
-  }
 }

@@ -13,7 +13,7 @@ class App extends StatelessWidget {
       title: 'Meme Store',
       theme: ThemeData.from(
           colorScheme: ColorScheme.fromSeed(
-              seedColor: Colors.deepPurple
+              seedColor: Colors.blue
           )
       ),
       routerConfig: appRouter.config(),
