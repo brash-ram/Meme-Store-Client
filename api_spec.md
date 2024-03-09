@@ -471,7 +471,7 @@ Create a new [`Gallery`](#gallery--modelobject).
 * [`Gallery`](#gallery--modelobject).
 
 ----
-#### gallery/<id>`
+#### `GET` `/gallery/<id>`
 
 Retrieve an existing [`Gallery`](#gallery--modelobject).
 
