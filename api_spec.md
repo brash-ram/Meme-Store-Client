@@ -471,7 +471,7 @@ Create a new [`Gallery`](#gallery--modelobject).
 * [`Gallery`](#gallery--modelobject).
 
 ----
-#### `GET` `/gallery/<id>`
+#### gallery/<id>`
 
 Retrieve an existing [`Gallery`](#gallery--modelobject).
 
@@ -648,7 +648,7 @@ Partially update an existing [`Meme`](#meme--modelobject).
 
 **Returns:**
 
-* [`Gallery`](#gallery--modelobject).
+* [`Meme`](#meme--modelobject).
 
 ----
 #### `DELETE` `/meme/<gallery_id>_<id>`
