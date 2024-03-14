@@ -386,48 +386,9 @@ Used tenant defines type of managed tenants.
 > [!Warning]
 > **Requires service tenant**.
 
-----
-#### `POST` `/service/external_user/create`
-
-Creates new managed user tenant.
-
-**Body**:
-
-```json5
-{
-	"display_name": "string",
-	"unique_name": "string",
-}
-```
-
-**Returns:**
-
-* [`Tenant`](#tenant--modelobject).
-
----
-#### `PUT` `/service/external_user/<id>`
-
-Edit managed user tenant.
-
-**URI parameters**:
-
-* `id` is an ID of managed [`Tenant`](#tenant--modelobject).
-
-**Body**:
-
-```json5
-{
-	"display_name": "string",
-	"unique_name": "string",
-}
-```
-
-**Returns:**
-
-* [`Tenant`](#tenant--modelobject).
 
 ----
-#### `POST` `/service/external_user/<id>/auth`
+#### `POST` `/service/tg/external_user/<id>/auth`
 
 Issue authorization token for managed tenant.
 
@@ -441,6 +402,12 @@ Issue authorization token for managed tenant.
 **URI parameters**:
 
 * `id` is an ID of managed [`Tenant`](#tenant--modelobject) to be authorized.
+
+**Body**:
+
+  * Object with following fields:
+    * `full_name` - User first and last names combined as provided by Telegram.
+    * (Optional) `username` - User tag as provided by Telegram.
 
 **Returns:**
 
@@ -709,6 +676,17 @@ Non-existing tags are automatically created.
 * Array<[`MemeTag`](#memetag--tag)>.
 
 ### Tenants
+
+----
+#### `GET` `/tenants/me`
+
+Retrieve current [`Tenant`](#tenant--modelobject) from authorization.
+
+> Editor note: For unauthorized users this method will return Anonymous tenant.
+
+**Returns**:
+
+* [`Tenant`](#tenant--modelobject) or it's descendant.
 
 ----
 #### `GET` `/tenants/<id>`
