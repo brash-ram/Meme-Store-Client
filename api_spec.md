@@ -339,6 +339,24 @@ Where:
 - `current_tenant_can_edit` is a boolean flag indicating whether current tenant
   has edit access to this gallery.
 
+### FeedItem
+
+Feed response item.
+
+```json5
+{
+	"gallery_id": 0, // uint
+	"meme_id": 0, // uint
+}
+```
+
+Where:
+
+- `gallery_id` is unsigned integer ID of associated
+  [`Gallery`](#gallery--modelobject).
+- `meme_id` is unsigned integer ID of 
+  [`Meme`](#meme--modelobject).
+
 ## Endpoints
 
 ### General response
@@ -413,6 +431,33 @@ Issue authorization token for managed tenant.
 **Returns:**
 
 * String token to be used to impersonate tenant.
+
+### Feed
+
+----
+#### `GET` `/feed/public`
+
+Retrieve user feed of public memes.
+
+> Editor note: This endpoint should also include memes which are accessible
+> through contributors system. 
+
+**Returns**:
+
+* `Array<`[`FeedItem`](#feeditem)`>`.
+
+----
+#### `GET` `/feed/recommended`
+
+Retrieve user feed of recommended memes.
+
+> [!Note]
+> **Requires non-guest tenant**.
+
+**Returns**:
+
+* `Array<`[`FeedItem`](#feeditem)`>`.
+
 
 ### Galleries
 
