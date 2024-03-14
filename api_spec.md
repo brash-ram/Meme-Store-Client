@@ -680,6 +680,21 @@ Delete an existing [`Meme`](#meme--modelobject).
   > Editor note: false unless deleted from recycle bin.
 
 ----
+#### `GET` `/meme/<gallery_id>_<id>/alike`
+
+Retrieve feed of similar memes.
+
+**URI parameters**:
+
+* `gallery_id` is an ID of [`Gallery`](#gallery--modelobject) target meme is
+  accessed via.
+* `id` is an ID of target [`Meme`](#meme--modelobject).
+
+**Returns**:
+
+* `Array<`[`FeedItem`](#feeditem)`>`.
+
+----
 #### `GET` `/meme/<gallery_id>_<id>/tags`
 
 Retrieve tags of an existing [`Meme`](#meme--modelobject).
