@@ -407,7 +407,8 @@ Issue authorization token for managed tenant.
 
   * Object with following fields:
     * `full_name` - User first and last names combined as provided by Telegram.
-    * (Optional) `username` - User tag as provided by Telegram.
+    * `username` - User tag as provided by Telegram.
+      > Editor note: can be an empty string.
 
 **Returns:**
 
