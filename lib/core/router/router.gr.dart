@@ -33,6 +33,12 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const HomeShopScreen(),
       );
     },
+    LogsRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const LogsScreen(),
+      );
+    },
     MemeRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -86,6 +92,20 @@ class HomeShopRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'HomeShopRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [LogsScreen]
+class LogsRoute extends PageRouteInfo<void> {
+  const LogsRoute({List<PageRouteInfo>? children})
+      : super(
+          LogsRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'LogsRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }
