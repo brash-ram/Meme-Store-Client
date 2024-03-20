@@ -11,7 +11,7 @@ dependencies:
   auto_route: ^7.8.4
   bloc: ^8.1.3
   dart_mappable: ^4.2.0
-  fetch_client: ^1.0.2
+  fetch_client: ^1.1.0-wasm
   flutter:
     sdk: flutter
   flutter_bloc: ^8.1.3
@@ -22,25 +22,19 @@ dependencies:
     git: https://github.com/Zekfad/lru_cache
   meta: ^1.12.0
   rxdart: ^0.27.7
-  talker: ^4.0.3
-  talker_flutter: ^4.0.3
+  talker: ^4.1.0
+  talker_flutter: ^4.1.0
 
 dev_dependencies:
   auto_route_generator: ^7.3.2
   build_runner:
   dart_mappable_builder: ^4.2.0
-  flutter_test:
-    sdk: flutter
+  # flutter_test:
+  #   sdk: flutter
   zekfad_lints: ^2.0.0
 
 dependency_overrides:
   meta: ^1.12.0
-  # https://github.com/Frezyx/talker/pull/199
-  # talker:
-  #   git:
-  #     url: https://github.com/qwadrox/talker
-  #     path: packages/talker
-
 
 flutter:
   assets:
