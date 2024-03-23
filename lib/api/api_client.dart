@@ -5,6 +5,7 @@ import '/data.dart';
 import '/logging.dart';
 import 'api_exception.dart';
 import 'auth_controller.dart';
+import 'request_models.dart';
 
 
 class ApiClient {
@@ -20,12 +21,12 @@ class ApiClient {
   final AuthController authController;
   final http.Client client;
 
-  Future<ResponseOk<T>> _request<T, B>(
+  Future<ResponseOk<T>> _request<T>(
     String path, {
       String method = 'GET',
       Map<String, String> queryParameters = const {},
       Map<String, String> headers = const {},
-      B? body,
+      String? body,
     }
   ) async {
     final _method = method.toUpperCase();
@@ -45,6 +46,8 @@ class ApiClient {
     );
     request.headers.addAll(headers);
     authController.authorizeRequest(request);
+    if (body != null)
+      request.body = body;
   
     final errorDetailsRequest = !kIncludeRequestsInErrors ? null : request;
     final http.Response response;
@@ -98,7 +101,7 @@ class ApiClient {
   Future<T> _get<T>(String path, {
     Map<String, String> queryParameters = const {},
     Map<String, String> headers = const {},
-  }) => _request<T, Never>(
+  }) => _request<T>(
       path,
       queryParameters: queryParameters,
       headers: headers,
@@ -107,4 +110,23 @@ class ApiClient {
 
   Future<Meme> getMeme(int galleryId, int memeId) async =>
     _get('/meme/${galleryId}_$memeId');
+
+  Uri getAssetUri(int assetId) => baseUri.replace(
+    path: '${baseUri.path}/asset/$assetId',
+  );
+
+  Future<List<MemeTag>> getMemeTags(int galleryId, int memeId) =>
+    _get('/meme/${galleryId}_$memeId/tags');
+
+  Future<List<MemeTag>> voteForMemeTag(int memeId, int tagId, VoteType? vote) =>
+    _request<List<MemeTag>>(
+      '/meme/$memeId/vote/$tagId',
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+      },
+      body: (
+        type: vote,
+      ).toJson(),
+    ).then((value) => value.result);
 }

@@ -12,6 +12,6 @@ class Tag extends ModelObject with TagMappable {
     required this.name,
   });
 
-  @MappableField(key: 'title')
+  @MappableField(key: 'name')
   final String name;
 }

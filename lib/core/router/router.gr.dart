@@ -21,6 +21,18 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const AddMemeScreen(),
       );
     },
+    AssetRoute.name: (routeData) {
+      final pathParams = routeData.inheritedPathParams;
+      final args = routeData.argsAs<AssetRouteArgs>(
+          orElse: () => AssetRouteArgs(assetId: pathParams.getInt('assetId')));
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: AssetScreen(
+          assetId: args.assetId,
+          key: args.key,
+        ),
+      );
+    },
     FeedRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -40,9 +52,19 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
     MemeRoute.name: (routeData) {
+      final pathParams = routeData.inheritedPathParams;
+      final args = routeData.argsAs<MemeRouteArgs>(
+          orElse: () => MemeRouteArgs(
+                galleryId: pathParams.getInt('galleryId'),
+                memeId: pathParams.getInt('memeId'),
+              ));
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const MemeScreen(),
+        child: MemeScreen(
+          galleryId: args.galleryId,
+          memeId: args.memeId,
+          key: args.key,
+        ),
       );
     },
     ProfileRoute.name: (routeData) {
@@ -66,6 +88,44 @@ class AddMemeRoute extends PageRouteInfo<void> {
   static const String name = 'AddMemeRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [AssetScreen]
+class AssetRoute extends PageRouteInfo<AssetRouteArgs> {
+  AssetRoute({
+    required int assetId,
+    Key? key,
+    List<PageRouteInfo>? children,
+  }) : super(
+          AssetRoute.name,
+          args: AssetRouteArgs(
+            assetId: assetId,
+            key: key,
+          ),
+          rawPathParams: {'assetId': assetId},
+          initialChildren: children,
+        );
+
+  static const String name = 'AssetRoute';
+
+  static const PageInfo<AssetRouteArgs> page = PageInfo<AssetRouteArgs>(name);
+}
+
+class AssetRouteArgs {
+  const AssetRouteArgs({
+    required this.assetId,
+    this.key,
+  });
+
+  final int assetId;
+
+  final Key? key;
+
+  @override
+  String toString() {
+    return 'AssetRouteArgs{assetId: $assetId, key: $key}';
+  }
 }
 
 /// generated route for
@@ -112,16 +172,48 @@ class LogsRoute extends PageRouteInfo<void> {
 
 /// generated route for
 /// [MemeScreen]
-class MemeRoute extends PageRouteInfo<void> {
-  const MemeRoute({List<PageRouteInfo>? children})
-      : super(
+class MemeRoute extends PageRouteInfo<MemeRouteArgs> {
+  MemeRoute({
+    required int galleryId,
+    required int memeId,
+    Key? key,
+    List<PageRouteInfo>? children,
+  }) : super(
           MemeRoute.name,
+          args: MemeRouteArgs(
+            galleryId: galleryId,
+            memeId: memeId,
+            key: key,
+          ),
+          rawPathParams: {
+            'galleryId': galleryId,
+            'memeId': memeId,
+          },
           initialChildren: children,
         );
 
   static const String name = 'MemeRoute';
 
-  static const PageInfo<void> page = PageInfo<void>(name);
+  static const PageInfo<MemeRouteArgs> page = PageInfo<MemeRouteArgs>(name);
+}
+
+class MemeRouteArgs {
+  const MemeRouteArgs({
+    required this.galleryId,
+    required this.memeId,
+    this.key,
+  });
+
+  final int galleryId;
+
+  final int memeId;
+
+  final Key? key;
+
+  @override
+  String toString() {
+    return 'MemeRouteArgs{galleryId: $galleryId, memeId: $memeId, key: $key}';
+  }
 }
 
 /// generated route for

@@ -4,9 +4,15 @@ import 'package:http/http.dart' as http;
 class AuthController {
   String? token;
 
+  Map<String, String> get authHeaders => switch(token) {
+    final token? => { 'authorization': 'Bearer $token', },
+    _ => const {}
+  };
+
   bool authorizeRequest(http.Request request) {
-    if (token case final _token?) {
-      request.headers['authorization'] = 'Bearer $_token';
+    if (token != null) {
+      request.headers.addAll(authHeaders);
+      return true;
     }
     return false;
   }

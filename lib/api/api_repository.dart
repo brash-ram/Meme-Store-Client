@@ -39,7 +39,7 @@ extension type RefsCounter<T extends Object>._(Expando<int> _refsCount) {
   int decrease(T object) => _changeRefsCount(object, -1);
 }
 
-extension type CacheDates<T extends ModelObject>._(Expando<DateTime> _cacheDate) {
+extension type CacheDates<T extends Object>._(Expando<DateTime> _cacheDate) {
   factory CacheDates() => CacheDates._(Expando());
 
   static final _zeroTime = DateTime.fromMillisecondsSinceEpoch(0);
@@ -58,13 +58,13 @@ class ApiRepository {
 
   final ApiClient client;
 
-  final cache = LruWeakCache<CacheId, ModelObject>(10);
+  final cache = LruWeakCache<CacheId, Object>(10);
   final cacheDates = CacheDates(); 
-  final controllers = <CacheId, BehaviorSubject<ModelObject>>{};
-  final controllersListenersCounter = RefsCounter<BehaviorSubject<ModelObject>>();
+  final controllers = <CacheId, BehaviorSubject<Object>>{};
+  final controllersListenersCounter = RefsCounter<BehaviorSubject<Object>>();
   final requestsLocks = <CacheId, Future<void>>{};
 
-  Stream<T> _prepareDataStream<T extends ModelObject>(BehaviorSubject<T> subject, CacheId id) =>
+  Stream<T> _prepareDataStream<T extends Object>(BehaviorSubject<T> subject, CacheId id) =>
     subject.stream.transform(
       StreamTransformer(
         (stream, cancelOnError) {
@@ -91,7 +91,7 @@ class ApiRepository {
       ),
     );
   
-  Future<void> _removeUnusedController<T>(BehaviorSubject<T> controller, CacheId id) async {
+  Future<void> _removeUnusedController<T extends Object>(BehaviorSubject<T> controller, CacheId id) async {
     assert(controllers[id] == controller, 'Requested removal of unknown controller.');
     if (controllers[id] == controller)
       controllers.remove(id);
@@ -102,7 +102,7 @@ class ApiRepository {
   }
 
   /// Creates data stream from wrapped fetch call.
-  Stream<T> _createDataStream<T extends ModelObject>(
+  Stream<T> _createDataStream<T extends Object>(
     Future<void> Function(int id) wrappedFetchCall,
     int id,
   ) {
@@ -131,7 +131,7 @@ class ApiRepository {
   /// Wraps request call.
   /// Wrapped call doesn't return data, but instead updates corresponding data
   /// stream.
-  Future<void> _wrapFetchCall<T extends ModelObject>(
+  Future<void> _wrapFetchCall<T extends Object>(
     Future<T> Function(int id) makeRequest,
     int id,
   ) {
@@ -140,26 +140,32 @@ class ApiRepository {
       cacheId,
       () async {
         try {
-          final data = await makeRequest(id);
-          cache[cacheId] = data;
-          cacheDates.update(data);
-          if (controllers[cacheId] case final controller?)
-            controller.add(data);
-          return;
+          _commitObject(id, await makeRequest(id));
         } catch (error, stackTrace) {
-          if (controllers[cacheId] case final controller?)
-            controller.addError(error, stackTrace);
-          else
-            talker.warning(
-              'Error occurred while retrieving data, but target stream have no subscribers',
-              error,
-              stackTrace,
-            );
+          _commitError<T>(id, error, stackTrace);
         } finally {
           unawaited(requestsLocks.remove(cacheId));
         }
       }
     );
+  }
+
+  void _commitObject<T extends Object>(int id, T data) {
+    final cacheId = (T, id);
+    cache[cacheId] = data;
+    cacheDates.update(data);
+    if (controllers[cacheId] case final controller?)
+      controller.add(data);
+  }
+  void _commitError<T extends Object>(int id, Object error, [StackTrace? stackTrace]) {
+    if (controllers[(T, id)] case final controller?)
+      controller.addError(error, stackTrace);
+    else
+      talker.warning(
+        'Error occurred while retrieving data, but target stream have no subscribers',
+        error,
+        stackTrace,
+      );
   }
 
   Future<void> fetchMeme(int galleryId, int memeId) =>
@@ -175,4 +181,26 @@ class ApiRepository {
       memeId,
       // (galleryId & 0xffff) << 16 | (memeId & 0xffff),
     );
+
+  Uri getAssetUri(int assetId) => client.getAssetUri(assetId);
+
+  Future<void> fetchMemeTags(int galleryId, int memeId) =>
+    _wrapFetchCall(
+      (id) async => client.getMemeTags(galleryId, memeId),
+      memeId,
+    );
+
+  Stream<List<MemeTag>> getMemeTags(int galleryId, int memeId) =>
+    _createDataStream(
+      (id) async => fetchMemeTags(galleryId, memeId),
+      memeId,
+    );
+
+  Future<void> voteForMemeTag(int memeId, int tagId, VoteType? vote) async {
+    try {
+      _commitObject(memeId, await client.voteForMemeTag(memeId, tagId, vote));
+    } catch (error, stackTrace) {
+      _commitError<List<MemeTag>>(memeId, error, stackTrace);
+    }
+  }
 }

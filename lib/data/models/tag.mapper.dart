@@ -24,7 +24,7 @@ class TagMapper extends ClassMapperBase<Tag> {
   static int _$id(Tag v) => v.id;
   static const Field<Tag, int> _f$id = Field('id', _$id);
   static String _$name(Tag v) => v.name;
-  static const Field<Tag, String> _f$name = Field('name', _$name, key: 'title');
+  static const Field<Tag, String> _f$name = Field('name', _$name);
 
   @override
   final MappableFields<Tag> fields = const {

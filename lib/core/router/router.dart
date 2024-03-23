@@ -1,6 +1,8 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/widgets.dart';
 
 import '../../widgets/screen/add_meme/add_meme_screen.dart';
+import '../../widgets/screen/asset/asset_screen.dart';
 import '../../widgets/screen/feed/feed_screen.dart';
 import '../../widgets/screen/home/home_screen.dart';
 import '../../widgets/screen/logs/logs_screen.dart';
@@ -27,6 +29,7 @@ class AppRouter extends _$AppRouter {
         AutoRoute(page: ProfileRoute.page, path: 'profile'),
       ],
     ),
-    AutoRoute(page: MemeRoute.page, path: '/meme'),
+    AutoRoute(page: MemeRoute.page, path: '/gallery/:galleryId/:memeId'),
+    AutoRoute(page: AssetRoute.page , path: '/asset/:assetId'),
   ];
 }

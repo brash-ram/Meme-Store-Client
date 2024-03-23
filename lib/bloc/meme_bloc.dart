@@ -12,7 +12,7 @@ class MemeBloc extends ModelBloc<Meme> {
 
   @override
   Stream<Meme> get dataStream => api.getMeme(galleryId, memeId);
-  
+
   @override
-  Future<void> refreshData() async => api.fetchMeme(galleryId, memeId);
+  Future<void> fetchNewData() async => api.fetchMeme(galleryId, memeId);
 }

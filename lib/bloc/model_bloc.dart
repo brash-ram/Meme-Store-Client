@@ -17,7 +17,7 @@ abstract class ModelBloc<T> extends Bloc<BlocEvent<T>, BlocState<T>> {
   }
 
   Stream<T> get dataStream;
-  Future<void> refreshData();
+  Future<void> fetchNewData();
 
   T? _latestValue;
   late StreamSubscription<T> _subscription;
@@ -72,14 +72,14 @@ abstract class ModelBloc<T> extends Bloc<BlocEvent<T>, BlocState<T>> {
   /// Fetch data without discarding previous state.
   Future<void> update() async {
     add(BlocUpdateEvent(_latestValue));
-    return refreshData();
+    return fetchNewData();
   }
 
   /// Reset state to initial and fetch data.
-  Future<void> invalidate() async {
+  Future<void> reset() async {
     _latestValue = null;
     add(BlocUpdateEvent<T>(null));
-    return refreshData();
+    return fetchNewData();
   }
 
   @visibleForTesting

@@ -14,6 +14,7 @@ class MemeTagMapper extends ClassMapperBase<MemeTag> {
     if (_instance == null) {
       MapperContainer.globals.use(_instance = MemeTagMapper._());
       TagMapper.ensureInitialized();
+      VoteTypeMapper.ensureInitialized();
     }
     return _instance!;
   }
@@ -24,16 +25,15 @@ class MemeTagMapper extends ClassMapperBase<MemeTag> {
   static int _$id(MemeTag v) => v.id;
   static const Field<MemeTag, int> _f$id = Field('id', _$id);
   static String _$name(MemeTag v) => v.name;
-  static const Field<MemeTag, String> _f$name =
-      Field('name', _$name, key: 'title');
+  static const Field<MemeTag, String> _f$name = Field('name', _$name);
   static int _$memeId(MemeTag v) => v.memeId;
   static const Field<MemeTag, int> _f$memeId =
       Field('memeId', _$memeId, key: 'meme_id');
   static int _$score(MemeTag v) => v.score;
   static const Field<MemeTag, int> _f$score = Field('score', _$score);
-  static int _$myVote(MemeTag v) => v.myVote;
-  static const Field<MemeTag, int> _f$myVote =
-      Field('myVote', _$myVote, key: 'my_vote');
+  static VoteType? _$myVote(MemeTag v) => v.myVote;
+  static const Field<MemeTag, VoteType> _f$myVote =
+      Field('myVote', _$myVote, key: 'my_vote', opt: true);
 
   @override
   final MappableFields<MemeTag> fields = const {

@@ -1,4 +1,7 @@
-sealed class BlocState<T> {
+import 'package:equatable/equatable.dart';
+
+
+sealed class BlocState<T> with EquatableMixin {
   T? get value;
 
   BlocState<S> select<S>(S Function(T value) selector);
@@ -10,7 +13,7 @@ sealed class BlocStateWithValue<T> implements BlocState<T> {
   T get value;
 }
 
-final class BlocStateError<T> implements BlocState<T> {
+final class BlocStateError<T> with EquatableMixin implements BlocState<T> {
   const factory BlocStateError({
     required Object error,
     StackTrace? stackTrace,
@@ -33,9 +36,12 @@ final class BlocStateError<T> implements BlocState<T> {
 
   @override
   String toString() => 'BlocStateError<Never>(value: $value, error: $error)';
+
+  @override
+  List<Object?> get props => [ error, stackTrace, ];
 }
 
-final class BlocStateErrorWithValue<T> implements BlocStateError<T>, BlocStateWithValue<T> {
+final class BlocStateErrorWithValue<T> with EquatableMixin implements BlocStateError<T>, BlocStateWithValue<T> {
   const BlocStateErrorWithValue({
     required this.value,
     required this.error,
@@ -59,9 +65,12 @@ final class BlocStateErrorWithValue<T> implements BlocStateError<T>, BlocStateWi
 
   @override
   String toString() => 'BlocStateError<$T>(value: $value, error: $error)';
+
+  @override
+  List<Object?> get props => [ value, error, stackTrace, ];
 }
 
-final class BlocStateInitial<T> implements BlocStateLoading<T> {
+final class BlocStateInitial<T> with EquatableMixin implements BlocStateLoading<T> {
   const factory BlocStateInitial() = BlocStateInitial<Never>._;
 
   const BlocStateInitial._();
@@ -75,9 +84,12 @@ final class BlocStateInitial<T> implements BlocStateLoading<T> {
 
   @override
   String toString() => 'BlocStateInitial<$T>()';
+
+  @override
+  List<Object?> get props => [ value, ];
 }
 
-final class BlocStateUpdating<T> implements BlocStateLoading<T>, BlocStateWithValue<T> {
+final class BlocStateUpdating<T> with EquatableMixin implements BlocStateLoading<T>, BlocStateWithValue<T> {
   const BlocStateUpdating({required this.value});
 
   @override
@@ -89,9 +101,12 @@ final class BlocStateUpdating<T> implements BlocStateLoading<T>, BlocStateWithVa
 
   @override
   String toString() => 'BlocStateUpdating<$T>(value: $value)';
+
+  @override
+  List<Object?> get props => [ value, ];
 }
 
-final class BlocStateData<T> implements BlocStateWithValue<T> {
+final class BlocStateData<T> with EquatableMixin implements BlocStateWithValue<T> {
   const BlocStateData({required this.value});
 
   @override
@@ -103,4 +118,7 @@ final class BlocStateData<T> implements BlocStateWithValue<T> {
 
   @override
   String toString() => 'BlocStateData<$T>(value: $value)';
+
+  @override
+  List<Object?> get props => [ value, ];
 }

@@ -24,7 +24,8 @@ class MemeCard extends StatelessWidget {
           padding: const EdgeInsets.all(5),
           child: InkWell(
             onTap: () async {
-              await AutoRouter.of(context).push(const MemeRoute());
+              // TODO navigation link
+              // await AutoRouter.of(context).push(const MemeRoute());
             },
             child: Column(
               children: [
