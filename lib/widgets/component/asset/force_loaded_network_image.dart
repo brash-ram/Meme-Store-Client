@@ -57,8 +57,8 @@ class _ForceLoadedNetworkImageState extends State<ForceLoadedNetworkImage> {
         uri.toString(),
         headers: widget.headers,
       ) as ImageProvider<NetworkImage>;
-    return SizedBox(
-      height: 400,
+    return ConstrainedBox(
+      constraints: const BoxConstraints(maxHeight: 400),
       child: Stack(
         children: [
           Positioned(
