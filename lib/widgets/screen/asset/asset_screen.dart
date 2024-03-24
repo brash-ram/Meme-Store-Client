@@ -27,6 +27,7 @@ class AssetScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         leading: const AutoLeadingButton(),
+        title: const Text('Asset viewer'),
       ),
       body: Listener(
         onPointerSignal: (event) {
