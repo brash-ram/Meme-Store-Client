@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 
-import '../../../component/asset/meme_image.dart';
+import '/widgets/component/asset/meme_image.dart';
+import 'meme_author.dart';
+import 'meme_description.dart';
 import 'meme_tags.dart';
 
 class MemeDetails extends StatelessWidget {
@@ -10,11 +12,20 @@ class MemeDetails extends StatelessWidget {
   Widget build(BuildContext context) => CustomScrollView(
     slivers: [
       SliverList.list(
-        children: [
+        children: const [
           MemeImage(),
-          MemeTags(),
-          // tags
-          // desk
+          Padding(
+            padding: EdgeInsets.all(8.0),
+            child: MemeAuthor(),
+          ),
+          Padding(
+            padding: EdgeInsets.all(8.0),
+            child: MemeDescription(),
+          ),
+          Padding(
+            padding: EdgeInsets.all(8.0),
+            child: MemeTags(),
+          ),
         ],
       ),
     ],
