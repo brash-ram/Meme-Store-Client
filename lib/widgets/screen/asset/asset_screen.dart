@@ -38,8 +38,8 @@ class AssetScreen extends StatelessWidget {
         },
         child: PhotoView(
           controller: controller,
-          heroAttributes: const PhotoViewHeroAttributes(
-            tag: 'AssetScreenHeroTag',
+          heroAttributes: PhotoViewHeroAttributes(
+            tag: 'AssetHero#$assetId',
           ),
           imageProvider: ForceLoadedNetworkImage.kDebugUseLocalImage
             ? const AssetImage('images/troll_face.png') as ImageProvider<AssetBundleImageKey>

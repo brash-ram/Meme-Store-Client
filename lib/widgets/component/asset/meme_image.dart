@@ -8,7 +8,12 @@ import 'force_loaded_network_image.dart';
 
 
 class MemeImage extends StatelessWidget {
-  const MemeImage({ super.key, });
+  const MemeImage({
+    super.key,
+    this.interactive = true,
+  });
+
+  final bool interactive;
 
   @override
   Widget build(BuildContext context) =>
@@ -17,9 +22,11 @@ class MemeImage extends StatelessWidget {
       builder: (context, data) {
         final api = context.read<ApiRepository>();
         return GestureDetector(
-          onTap: () async => context.navigateTo(AssetRoute(assetId: data)),
+          onTap: () async => interactive
+            ? context.navigateTo(AssetRoute(assetId: data))
+            : null,
           child: Hero(
-            tag: 'AssetScreenHeroTag',
+            tag: 'AssetHero#$data',
             child: ForceLoadedNetworkImage(
               uri: api.getAssetUri(data),
               headers: api.client.authController.authHeaders,
