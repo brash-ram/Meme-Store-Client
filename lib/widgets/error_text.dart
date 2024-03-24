@@ -20,5 +20,7 @@ class ErrorText extends StatelessWidget {
         return 'An error occurred.';
       }(),
     },
+    maxLines: 3,
+    overflow: TextOverflow.ellipsis,
   );
 }
