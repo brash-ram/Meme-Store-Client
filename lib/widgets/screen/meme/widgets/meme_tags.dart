@@ -24,7 +24,7 @@ class MemeTags extends StatelessWidget {
           _ => null,
         },
         child: ModelBlocDataSelector<MemeTagsBloc, List<MemeTag>, List<MemeTag>>(
-          selector: (value) => [ ...value, ],
+          selector: (value) => value,
           builder: (context, data) => Padding(
             padding: const EdgeInsets.all(8.0),
             child: Wrap(
@@ -51,8 +51,10 @@ class MemeTagWidget extends StatelessWidget {
   final MemeTag tag;
 
   @override
-  Widget build(BuildContext context) =>
-    Material(
+  Widget build(BuildContext context) {
+    final api = context.read<ApiRepository>();
+    final tagsBloc = context.read<MemeTagsBloc>();
+    return Material(
       shape: RoundedRectangleBorder(
         side: BorderSide(
             color: Theme.of(context).colorScheme.outline,
@@ -78,10 +80,13 @@ class MemeTagWidget extends StatelessWidget {
             icon: const Icon(
               Icons.arrow_upward,
             ),
-            onPressed: () async => context.read<ApiRepository>().voteForMemeTag(
-              context.read<MemeTagsBloc>().memeId,
+            onPressed: () async => api.voteForMemeTag(
+              tagsBloc.galleryId,
+              tagsBloc.memeId,
               tag.id,
-              VoteType.up,
+              tag.myVote == VoteType.up
+                ? null
+                : VoteType.up,
             ),
           ),
           IconButton(
@@ -93,13 +98,17 @@ class MemeTagWidget extends StatelessWidget {
             icon: const Icon(
               Icons.arrow_downward,
             ),
-            onPressed: () async => context.read<ApiRepository>().voteForMemeTag(
-              context.read<MemeTagsBloc>().memeId,
+            onPressed: () async => api.voteForMemeTag(
+              tagsBloc.galleryId,
+              tagsBloc.memeId,
               tag.id,
-              VoteType.down,
+              tag.myVote == VoteType.down
+                ? null
+                : VoteType.down,
             ),
           ),
         ],
       ),
     );
+  }
 }
