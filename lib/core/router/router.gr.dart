@@ -67,10 +67,22 @@ abstract class _$AppRouter extends RootStackRouter {
         ),
       );
     },
-    ProfileRoute.name: (routeData) {
+    MyProfileRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const ProfileScreen(),
+        child: const MyProfileScreen(),
+      );
+    },
+    TenantProfileRoute.name: (routeData) {
+      final pathParams = routeData.inheritedPathParams;
+      final args = routeData.argsAs<TenantProfileRouteArgs>(
+          orElse: () => TenantProfileRouteArgs(id: pathParams.getInt('id')));
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: TenantProfileScreen(
+          id: args.id,
+          key: args.key,
+        ),
       );
     },
   };
@@ -217,15 +229,54 @@ class MemeRouteArgs {
 }
 
 /// generated route for
-/// [ProfileScreen]
-class ProfileRoute extends PageRouteInfo<void> {
-  const ProfileRoute({List<PageRouteInfo>? children})
+/// [MyProfileScreen]
+class MyProfileRoute extends PageRouteInfo<void> {
+  const MyProfileRoute({List<PageRouteInfo>? children})
       : super(
-          ProfileRoute.name,
+          MyProfileRoute.name,
           initialChildren: children,
         );
 
-  static const String name = 'ProfileRoute';
+  static const String name = 'MyProfileRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [TenantProfileScreen]
+class TenantProfileRoute extends PageRouteInfo<TenantProfileRouteArgs> {
+  TenantProfileRoute({
+    required int id,
+    Key? key,
+    List<PageRouteInfo>? children,
+  }) : super(
+          TenantProfileRoute.name,
+          args: TenantProfileRouteArgs(
+            id: id,
+            key: key,
+          ),
+          rawPathParams: {'id': id},
+          initialChildren: children,
+        );
+
+  static const String name = 'TenantProfileRoute';
+
+  static const PageInfo<TenantProfileRouteArgs> page =
+      PageInfo<TenantProfileRouteArgs>(name);
+}
+
+class TenantProfileRouteArgs {
+  const TenantProfileRouteArgs({
+    required this.id,
+    this.key,
+  });
+
+  final int id;
+
+  final Key? key;
+
+  @override
+  String toString() {
+    return 'TenantProfileRouteArgs{id: $id, key: $key}';
+  }
 }

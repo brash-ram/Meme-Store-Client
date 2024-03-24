@@ -1,0 +1,52 @@
+import 'package:auto_route/auto_route.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '/data_layer_library.dart';
+
+
+@RoutePage()
+class TenantProfileScreen extends StatelessWidget {
+  const TenantProfileScreen({
+    @pathParam required this.id,
+    super.key,
+  });
+
+  final int id;
+
+  @override
+  Widget build(BuildContext context) => BlocProvider.value(
+    value: TenantBloc(context.read(), id),
+    child: Scaffold(
+      appBar: AppBar(
+        leading: const AutoLeadingButton(),
+        title: ModelBlocDataSelector<TenantBloc, Tenant, String>(
+          selector: (value) => value.displayName,
+          builder: (context, state) => Text(state),
+        ),
+        actions: [
+          if (kDebugMode)
+            Builder(
+              builder: (context) =>
+                IconButton(
+                  icon: const Icon(Icons.refresh),
+                  tooltip: 'Refresh',
+                  onPressed: () async => context.read<TenantBloc>().update(),
+                ),
+            ),
+          if (kDebugMode)
+            Builder(
+              builder: (context) =>
+                IconButton(
+                  icon: const Icon(Icons.rotate_right),
+                  tooltip: 'Reset',
+                  onPressed: () async => context.read<TenantBloc>().reset(),
+                ),
+            ),
+        ],
+      ),
+      body: Text('Profile $id'),
+    ),
+  );
+}
