@@ -7,11 +7,6 @@ import 'error_text.dart';
 
 
 class ModelBlocDataSelectorState<B extends ModelBloc<S>, S, T> extends State<ModelBlocDataSelector<B, S, T>> {
-  static Widget _defaultErrorBuilder<T>(BuildContext context, BlocStateError<T> state)
-    => ErrorText(state.error);
-  static Widget _defaultLoadingBuilder<T>(BuildContext context, BlocStateLoading<T> state)
-    => const Text('Loading...');
-
   (T, Widget)? _lastBuild;
 
   @override
@@ -23,7 +18,40 @@ class ModelBlocDataSelectorState<B extends ModelBloc<S>, S, T> extends State<Mod
   BlocState<T> _selector(BlocState<S> state) => 
     state.select(widget.selector);
 
-  Widget _build(BuildContext context, T data) {
+  Widget _defaultErrorBuilder(BuildContext context, BlocStateError<T> state)
+    => Center(
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          IconButton(
+            icon: const Icon(Icons.refresh),
+            onPressed: () async => context.read<B>().reset(),
+            tooltip: 'Reload data',
+          ),
+          Flexible(
+            child: ErrorText(state.error),
+          ),
+        ],
+      ),
+    );
+
+  Widget _buildError(BuildContext context, BlocStateError<T> state) {
+    _lastBuild = null;
+    return (widget.errorBuilder ?? _defaultErrorBuilder).call(context, state);
+  }
+
+  Widget _defaultLoadingBuilder(BuildContext context, BlocStateLoading<T> state) =>
+    const Center(
+      child: Text('Loading...'),
+    );
+
+  Widget _buildLoading(BuildContext context, BlocStateLoading<T> state) {
+    _lastBuild = null;
+    return (widget.loadingBuilder ?? _defaultLoadingBuilder).call(context, state);
+  }
+
+  Widget _buildData(BuildContext context, T data) {
     if (_lastBuild case (final cachedData, final cachedWidget)? when cachedData == data) {
       // skip build
       return cachedWidget;
@@ -32,21 +60,13 @@ class ModelBlocDataSelectorState<B extends ModelBloc<S>, S, T> extends State<Mod
     _lastBuild = (data, builtWidget);
     return builtWidget;
   }
-  Widget _buildError(BuildContext context, BlocStateError<T> state) {
-    _lastBuild = null;
-    return (widget.errorBuilder ?? _defaultErrorBuilder).call(context, state);
-  }
-  Widget _buildLoading(BuildContext context, BlocStateLoading<T> state) {
-    _lastBuild = null;
-    return (widget.loadingBuilder ?? _defaultLoadingBuilder).call(context, state);
-  }
 
   Widget _builder(BuildContext context, BlocState<T> state) => switch (state) {
-    BlocStateErrorWithValue(:final value) when widget.showOldDataOnError => _build(context, value),
-    BlocStateUpdating(:final value) when widget.showOldDataOnLoad => _build(context, value),
+    BlocStateErrorWithValue(:final value) when widget.showOldDataOnError => _buildData(context, value),
+    BlocStateUpdating(:final value) when widget.showOldDataOnLoad => _buildData(context, value),
     final BlocStateError<T> state => _buildError(context, state),
     final BlocStateLoading<T> state => _buildLoading(context, state),
-    BlocStateData(:final value) => _build(context, value),
+    BlocStateData(:final value) => _buildData(context, value),
   };
 
   @override
