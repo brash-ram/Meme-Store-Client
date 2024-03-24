@@ -2,11 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '/data_layer_library.dart';
-import 'meme_tag_widget.dart';
 
 
 class MemeTags extends StatelessWidget {
-  const MemeTags({super.key});
+  const MemeTags({
+    required this.builder,
+    super.key,
+  });
+
+  final Widget Function(BuildContext context, MemeTag tag) builder;
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +36,7 @@ class MemeTags extends StatelessWidget {
             runSpacing: 4.0, // gap between lines
             children: [
               for (final tag in data)
-                MemeTagWidget(tag: tag),
+                builder(context, tag),
             ],
           ),
         ),

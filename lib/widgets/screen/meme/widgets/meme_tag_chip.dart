@@ -4,8 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '/data_layer_library.dart';
 
 
-class MemeTagWidget extends StatelessWidget {
-  const MemeTagWidget({
+class MemeTagChip extends StatelessWidget {
+  const MemeTagChip({
     required this.tag,
     super.key,
   });
