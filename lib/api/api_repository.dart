@@ -196,11 +196,23 @@ class ApiRepository {
       memeId,
     );
 
-  Future<void> voteForMemeTag(int memeId, int tagId, VoteType? vote) async {
+  Future<void> voteForMemeTag(int galleryId, int memeId, int tagId, VoteType? vote) async {
     try {
-      _commitObject(memeId, await client.voteForMemeTag(memeId, tagId, vote));
+      _commitObject(memeId, await client.voteForMemeTag(galleryId, memeId, tagId, vote));
     } catch (error, stackTrace) {
       _commitError<List<MemeTag>>(memeId, error, stackTrace);
     }
   }
+
+  Future<void> fetchTenant(int id) =>
+    _wrapFetchCall(
+      (id) async => client.getTenant(id),
+      id,
+    );
+
+  Stream<Tenant> getTenant(int id) =>
+    _createDataStream(
+      (id) async => fetchTenant(id),
+      id,
+    );
 }

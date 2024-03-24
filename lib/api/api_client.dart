@@ -108,6 +108,21 @@ class ApiClient {
     )
     .then((value) => value.result);
 
+  Future<T> _post<T>(String path, String body, {
+    Map<String, String> queryParameters = const {},
+    Map<String, String> headers = const {},
+  }) => _request<T>(
+      path,
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+        ...headers,
+      },
+      queryParameters: queryParameters,
+      body: body,
+    )
+    .then((value) => value.result);
+
   Future<Meme> getMeme(int galleryId, int memeId) async =>
     _get('/meme/${galleryId}_$memeId');
 
@@ -118,15 +133,12 @@ class ApiClient {
   Future<List<MemeTag>> getMemeTags(int galleryId, int memeId) =>
     _get('/meme/${galleryId}_$memeId/tags');
 
-  Future<List<MemeTag>> voteForMemeTag(int memeId, int tagId, VoteType? vote) =>
-    _request<List<MemeTag>>(
-      '/meme/$memeId/vote/$tagId',
-      method: 'POST',
-      headers: {
-        'content-type': 'application/json',
-      },
-      body: (
-        type: vote,
-      ).toJson(),
-    ).then((value) => value.result);
+  Future<List<MemeTag>> voteForMemeTag(int galleryId, int memeId, int tagId, VoteType? vote) =>
+    _post('/meme/${galleryId}_$memeId/vote/$tagId', (type: vote).toJson());
+
+  Future<Tenant> getTenant(int id) =>
+    _get('/tenants/$id');
+
+  Future<TenantProfile> getTenantProfile(int id) =>
+    _get('/tenants/$id/profile');
 }
