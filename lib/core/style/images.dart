@@ -1,0 +1,1 @@
+const String blackTrollface = 'assets/images/troll_face.png';

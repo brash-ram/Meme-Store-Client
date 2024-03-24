@@ -1,4 +1,5 @@
 export 'models/assets.dart';
+export 'models/feed_item.dart';
 export 'models/gallery.dart';
 export 'models/meme.dart';
 export 'models/meme_tag.dart';

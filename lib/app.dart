@@ -33,7 +33,7 @@ class App extends StatelessWidget {
             baseUri: Uri.http('127.0.0.1:8080', 'api/v1'),
             client: context.read(),
             authController: context.read(),
-          )..authController.token = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWQiOjIsInJvbGVzIjpbIlVTRVJfUk9MRSJdLCJleHAiOjE3MTEyMjQxMTV9.szOxzWrEUm7MqibtoDSjwgnR2lviodvsWHxMlbqqwwJSDRi0rYc4gFLteRRwCXz3LW-nhwaVNsxKYA1_1z8aKQ',
+          )..authController.token = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWQiOjIsInJvbGVzIjpbIlVTRVJfUk9MRSJdLCJleHAiOjE3MjIwOTIzNjh9.3IHaGU8MhAu7H5xCI6p2aeu4862ohB0-bPlO6RFnEcMYeGqis2wxTWsCfT7fWPmf87NiTNZjlBUMBxx9ra-KEw',
         ),
         RepositoryProvider(
           create: (context) => ApiRepository(

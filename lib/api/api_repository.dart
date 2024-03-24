@@ -215,4 +215,7 @@ class ApiRepository {
       (id) async => fetchTenant(id),
       id,
     );
+
+  Future<List<FeedItem>> getFeed(int offset, int limit, FeedType type) =>
+      client.getFeed(offset, limit, type);
 }

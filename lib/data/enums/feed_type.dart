@@ -1,0 +1,4 @@
+enum FeedType {
+  latest,
+  recommended
+}
