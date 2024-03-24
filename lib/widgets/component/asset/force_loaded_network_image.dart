@@ -74,6 +74,8 @@ class _ForceLoadedNetworkImageState extends State<ForceLoadedNetworkImage> {
               child: Image(
                 image: image,
                 fit: BoxFit.cover,
+                excludeFromSemantics: true,
+                errorBuilder: (context, error, stackTrace) => const SizedBox.expand(),
               ),
             ),
           ),
@@ -83,10 +85,12 @@ class _ForceLoadedNetworkImageState extends State<ForceLoadedNetworkImage> {
               fit: BoxFit.contain,
               errorBuilder: (context, error, stackTrace) {
                 talker.verbose('Failed to load image', error, stackTrace);
-                return ElevatedButton.icon(
-                  label: const Text('Failed to load'),
-                  icon: const Icon(Icons.refresh),
-                  onPressed: () => setState(updateUri),
+                return Center(
+                  child: ElevatedButton.icon(
+                    label: const Text('Failed to load'),
+                    icon: const Icon(Icons.refresh),
+                    onPressed: () => setState(updateUri),
+                  ),
                 );
               },
             ),
