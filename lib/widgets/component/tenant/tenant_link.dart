@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 
@@ -28,9 +29,12 @@ class TenantLink extends StatelessWidget {
             const CircleAvatar(
               child: Icon(Icons.person),
             ),
-            ModelBlocDataSelector<TenantBloc, Tenant, String>(
-              selector: (value) => value.displayName,
-              builder: (context, data) => Text(data),              
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ModelBlocDataSelector<TenantBloc, Tenant, String>(
+                selector: (value) => value.displayName,
+                builder: (context, data) => Text(data),              
+              ),
             ),
           ],
         ),
