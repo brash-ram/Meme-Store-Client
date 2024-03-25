@@ -2,8 +2,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
 import '/core/router/router.dart';
-import '/core/style/icons.dart';
-import 'widget/bottom_navigation_bar_item.dart';
 
 
 @RoutePage()
