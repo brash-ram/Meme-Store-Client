@@ -168,6 +168,18 @@ class ApiRepository {
       );
   }
 
+  Future<void> fetchGallery(int id) =>
+    _wrapFetchCall(
+      (id) async => client.getGallery(id),
+      id,
+    );
+
+  Stream<Gallery> getGallery(int id) =>
+    _createDataStream(
+      (id) async => fetchGallery(id),
+      id,
+    );
+
   Future<void> fetchMeme(int galleryId, int memeId) =>
     _wrapFetchCall(
       (id) async => client.getMeme(galleryId, memeId),
@@ -183,6 +195,9 @@ class ApiRepository {
     );
 
   Uri getAssetUri(int assetId) => client.getAssetUri(assetId);
+
+  Future<List<FeedItem>> getFeed(int offset, int limit, FeedType type) =>
+    client.getFeed(offset, limit, type);
 
   Future<void> fetchMemeTags(int galleryId, int memeId) =>
     _wrapFetchCall(
@@ -216,6 +231,27 @@ class ApiRepository {
       id,
     );
 
-  Future<List<FeedItem>> getFeed(int offset, int limit, FeedType type) =>
-    client.getFeed(offset, limit, type);
+  Future<void> fetchMyTenant() =>
+    _wrapFetchCall(
+      (id) async => client.getMyTenant(),
+      -1,
+    );
+
+  Stream<Tenant> getMyTenant() =>
+    _createDataStream(
+      (id) async => fetchMyTenant(),
+      -1,
+    );
+
+  Future<void> fetchAvailableGalleryNames() =>
+    _wrapFetchCall(
+      (id) async => client.getAvailableGalleryNames(),
+      -1,
+    );
+
+  Stream<Gallery> getAvailableGalleryNames() =>
+    _createDataStream(
+      (id) async => fetchAvailableGalleryNames(),
+      -1,
+    );
 }

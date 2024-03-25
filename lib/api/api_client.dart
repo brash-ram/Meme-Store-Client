@@ -123,6 +123,9 @@ class ApiClient {
     )
     .then((value) => value.result);
 
+  Future<Gallery> getGallery(int id) =>
+    _get('/gallery/$id');
+
   Future<Meme> getMeme(int galleryId, int memeId) async =>
     _get('/meme/${galleryId}_$memeId');
 
@@ -135,6 +138,9 @@ class ApiClient {
 
   Future<List<MemeTag>> voteForMemeTag(int galleryId, int memeId, int tagId, VoteType? vote) =>
     _post('/meme/${galleryId}_$memeId/vote/$tagId', (type: vote).toJson());
+
+  Future<Tenant> getMyTenant() =>
+    _get('/tenants/my');
 
   Future<Tenant> getTenant(int id) =>
     _get('/tenants/$id');
@@ -152,4 +158,7 @@ class ApiClient {
         'limit': limit.toString(),
       },
     );
+
+  Future<List<AvailableGalleryName>> getAvailableGalleryNames() =>
+    _get('/gallery/available_names');
 }
