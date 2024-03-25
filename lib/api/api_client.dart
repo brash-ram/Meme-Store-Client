@@ -143,9 +143,13 @@ class ApiClient {
     _get('/tenants/$id/profile');
 
   Future<List<FeedItem>> getFeed(int offset, int limit, FeedType type) =>
-    _get(type == FeedType.latest ?'/feed/public' : '/feed/recommended',
-        queryParameters: {
-          'offset' : offset.toString(),
-          'limit' : limit.toString()},
+    _get(
+      type == FeedType.latest
+        ? '/feed/public'
+        : '/feed/recommended',
+      queryParameters: {
+        'offset': offset.toString(),
+        'limit': limit.toString(),
+      },
     );
 }

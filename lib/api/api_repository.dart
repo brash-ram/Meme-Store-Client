@@ -217,5 +217,5 @@ class ApiRepository {
     );
 
   Future<List<FeedItem>> getFeed(int offset, int limit, FeedType type) =>
-      client.getFeed(offset, limit, type);
+    client.getFeed(offset, limit, type);
 }
