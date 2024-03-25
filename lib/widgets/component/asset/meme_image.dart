@@ -21,17 +21,17 @@ class MemeImage extends StatelessWidget {
       selector: (value) => value.assetId,
       builder: (context, data) {
         final api = context.read<ApiRepository>();
-        final widget = Hero(
-          tag: 'AssetHero#$data',
-          child: ForceLoadedNetworkImage(
-            uri: api.getAssetUri(data),
-            headers: api.client.authController.authHeaders,
-          ),
+        final widget = ForceLoadedNetworkImage(
+          uri: api.getAssetUri(data),
+          headers: api.client.authController.authHeaders,
         );
         return interactive
-          ? GestureDetector(
-            onTap: () async => context.navigateTo(AssetRoute(assetId: data)),
-            child: widget,
+          ? Hero(
+            tag: 'AssetHero#$data',
+            child: GestureDetector(
+              onTap: () async => context.navigateTo(AssetRoute(assetId: data)),
+              child: widget,
+            ),
           )
           : widget;
       },
