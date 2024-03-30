@@ -12,20 +12,24 @@ class MemeCard extends StatelessWidget {
   const MemeCard({super.key});
 
   @override
-  Widget build(BuildContext context) => InkWell(
-    onTap: () async {
-      final meme = context.read<MemeBloc>();
-      await context.navigateTo(MemeRoute(galleryId: meme.galleryId, memeId: meme.memeId));
-    },
-    child: Card(
+  Widget build(BuildContext context) => Card(
+    child: InkWell(
+      borderRadius: switch(Theme.of(context).cardTheme.shape) {
+        RoundedRectangleBorder(:final borderRadius) => borderRadius.resolve(null),
+        _ => const BorderRadius.all(Radius.circular(12.0)),
+      },
+      onTap: () async {
+        final meme = context.read<MemeBloc>();
+        await context.navigateTo(MemeRoute(galleryId: meme.galleryId, memeId: meme.memeId));
+      },
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(
-                height: 200,
-                child: MemeImage(interactive: false,),
+              height: 200,
+              child: MemeImage(interactive: false,),
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
@@ -44,8 +48,8 @@ class MemeCard extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: MemeTags(
-                  builder: (context, tag) =>
-                      MemeCardTag(tag: tag,)
+                builder: (context, tag) =>
+                  MemeCardTag(tag: tag,),
               ),
             ),
           ],

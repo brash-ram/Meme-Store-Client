@@ -5,6 +5,7 @@ part 'asset_type.mapper.dart';
 
 @MappableEnum(mode: ValuesMode.named)
 enum AssetType {
+  @MappableValue('IMAGE')
   image,
   ;
 }

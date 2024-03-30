@@ -1,11 +1,12 @@
 import 'package:dart_mappable/dart_mappable.dart';
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
+import '../data_layer_library.dart';
 import '/data.dart';
 import '/logging.dart';
 import 'api_exception.dart';
 import 'auth_controller.dart';
-import 'request_models.dart';
 
 
 class ApiClient {
@@ -21,18 +22,20 @@ class ApiClient {
   final AuthController authController;
   final http.Client client;
 
-  Future<ResponseOk<T>> _request<T>(
+  Future<ResponseOk<T>> _request<T, B>(
     String path, {
       String method = 'GET',
       Map<String, String> queryParameters = const {},
       Map<String, String> headers = const {},
-      String? body,
+      B? body,
+      Uint8List? bodyBytes,
     }
   ) async {
     final _method = method.toUpperCase();
+    assert(body == null || bodyBytes == null, 'Cannot supply both text body and bytes body');
     assert(
       switch(_method) {
-        'GET' || 'HEAD' when body != null => false,
+        'GET' || 'HEAD' when body != null || bodyBytes != null => false,
         _ => true,
       },
       'Cannot supply body with GET or HEAD methods',
@@ -47,7 +50,9 @@ class ApiClient {
     request.headers.addAll(headers);
     authController.authorizeRequest(request);
     if (body != null)
-      request.body = body;
+      request.body = MapperContainer.globals.toJson(body);
+    if (bodyBytes != null)
+      request.bodyBytes = bodyBytes;
   
     final errorDetailsRequest = !kIncludeRequestsInErrors ? null : request;
     final http.Response response;
@@ -101,17 +106,19 @@ class ApiClient {
   Future<T> _get<T>(String path, {
     Map<String, String> queryParameters = const {},
     Map<String, String> headers = const {},
-  }) => _request<T>(
+  }) =>
+    _request<T, Never>(
       path,
       queryParameters: queryParameters,
       headers: headers,
     )
     .then((value) => value.result);
 
-  Future<T> _post<T>(String path, String body, {
+  Future<T> _post<T, B>(String path, B body, {
     Map<String, String> queryParameters = const {},
     Map<String, String> headers = const {},
-  }) => _request<T>(
+  }) =>
+    _request<T, B>(
       path,
       method: 'POST',
       headers: {
@@ -123,30 +130,56 @@ class ApiClient {
     )
     .then((value) => value.result);
 
+  Future<T> _postBinary<T>(String path, Uint8List bodyBytes, {
+    Map<String, String> queryParameters = const {},
+    Map<String, String> headers = const {},
+  }) =>
+    _request<T, Never>(
+      path,
+      method: 'POST',
+      headers: {
+        'content-type': 'application/octet-stream',
+        ...headers,
+      },
+      queryParameters: queryParameters,
+      bodyBytes: bodyBytes,
+    )
+    .then((value) => value.result);
+
   Future<Gallery> getGallery(int id) =>
     _get('/gallery/$id');
 
+  Future<Meme> createMeme({
+    required RequestBodyCreateMeme meme,
+    required AssetTemporaryTicket assetTicket,
+    required int galleryId,
+  }) async =>
+    _post(
+      '/meme/create',
+      meme,
+      queryParameters: {
+        'asset': assetTicket.temporaryTicket,
+        'gallery_id': galleryId.toString(),
+      },
+    );
+
   Future<Meme> getMeme(int galleryId, int memeId) async =>
     _get('/meme/${galleryId}_$memeId');
-
-  Uri getAssetUri(int assetId) => baseUri.replace(
-    path: '${baseUri.path}/asset/$assetId',
-  );
 
   Future<List<MemeTag>> getMemeTags(int galleryId, int memeId) =>
     _get('/meme/${galleryId}_$memeId/tags');
 
   Future<List<MemeTag>> voteForMemeTag(int galleryId, int memeId, int tagId, VoteType? vote) =>
-    _post('/meme/${galleryId}_$memeId/vote/$tagId', (type: vote).toJson());
+    _post('/meme/${galleryId}_$memeId/vote/$tagId', RequestBodyVote(type: vote));
 
-  Future<Tenant> getMyTenant() =>
-    _get('/tenants/my');
+  Future<Tenant> getMyTenantProfile() =>
+    _get('/tenant/my_profile');
 
   Future<Tenant> getTenant(int id) =>
-    _get('/tenants/$id');
+    _get('/tenant/$id');
 
   Future<TenantProfile> getTenantProfile(int id) =>
-    _get('/tenants/$id/profile');
+    _get('/tenant/$id/profile');
 
   Future<List<FeedItem>> getFeed(int offset, int limit, FeedType type) =>
     _get(
@@ -161,4 +194,15 @@ class ApiClient {
 
   Future<List<AvailableGalleryName>> getAvailableGalleryNames() =>
     _get('/gallery/available_names');
+
+  Future<AssetTemporaryTicket> uploadAsset(Uint8List data, AssetType type) =>
+    _postBinary(
+      '/asset/upload',
+      data,
+      queryParameters: const { 'type': 'IMAGE' },
+    );
+
+  Uri getAssetUri(int assetId) => baseUri.replace(
+    path: '${baseUri.path}/asset/$assetId',
+  );
 }

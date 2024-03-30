@@ -73,6 +73,7 @@ class _ForceLoadedNetworkImageState extends State<ForceLoadedNetworkImage> {
               ),
               child: Image(
                 image: image,
+                filterQuality: FilterQuality.none,
                 fit: BoxFit.cover,
                 excludeFromSemantics: true,
                 errorBuilder: (context, error, stackTrace) => const SizedBox.expand(),
@@ -82,6 +83,8 @@ class _ForceLoadedNetworkImageState extends State<ForceLoadedNetworkImage> {
           Positioned.fill(
             child: Image(
               image: image,
+              filterQuality: FilterQuality.medium,
+              isAntiAlias: true,
               fit: BoxFit.contain,
               errorBuilder: (context, error, stackTrace) {
                 talker.verbose('Failed to load image', error, stackTrace);

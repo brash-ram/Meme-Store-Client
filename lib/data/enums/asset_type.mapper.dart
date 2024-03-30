@@ -25,7 +25,7 @@ class AssetTypeMapper extends EnumMapper<AssetType> {
   @override
   AssetType decode(dynamic value) {
     switch (value) {
-      case 'image':
+      case 'IMAGE':
         return AssetType.image;
       default:
         throw MapperException.unknownEnumValue(value);
@@ -36,14 +36,14 @@ class AssetTypeMapper extends EnumMapper<AssetType> {
   dynamic encode(AssetType self) {
     switch (self) {
       case AssetType.image:
-        return 'image';
+        return 'IMAGE';
     }
   }
 }
 
 extension AssetTypeMapperExtension on AssetType {
-  String toValue() {
+  dynamic toValue() {
     AssetTypeMapper.ensureInitialized();
-    return MapperContainer.globals.toValue<AssetType>(this) as String;
+    return MapperContainer.globals.toValue<AssetType>(this);
   }
 }

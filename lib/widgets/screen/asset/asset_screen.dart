@@ -1,8 +1,6 @@
-import 'package:auto_route/annotations.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:photo_view/photo_view.dart';
 
@@ -12,14 +10,26 @@ import '/widgets/component/asset/force_loaded_network_image.dart';
 
 
 @RoutePage()
-class AssetScreen extends StatelessWidget {
-  AssetScreen({
+class AssetScreen extends StatefulWidget {
+  const AssetScreen({
     @pathParam required this.assetId,
     super.key,
   });
 
   final int assetId;
-  final controller =  PhotoViewController();
+
+  @override
+  State<AssetScreen> createState() => _AssetScreenState();
+}
+
+class _AssetScreenState extends State<AssetScreen> {
+  final _controller = PhotoViewController();
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,19 +42,20 @@ class AssetScreen extends StatelessWidget {
       body: Listener(
         onPointerSignal: (event) {
           if (event is PointerScrollEvent) {
-            final current = controller.scale ?? 0;
-            controller.scale = current - event.scrollDelta.dy / (500 / current);
+            final current = _controller.scale ?? 0;
+            _controller.scale = current - event.scrollDelta.dy / (500 / current);
           }
         },
         child: PhotoView(
-          controller: controller,
+          controller: _controller,
+          filterQuality: FilterQuality.high,
           heroAttributes: PhotoViewHeroAttributes(
-            tag: 'AssetHero#$assetId',
+            tag: 'AssetHero#${widget.assetId}',
           ),
           imageProvider: ForceLoadedNetworkImage.kDebugUseLocalImage
             ? const AssetImage('images/troll_face.png') as ImageProvider<AssetBundleImageKey>
             : NetworkImage(
-              api.getAssetUri(assetId).toString(),
+              api.getAssetUri(widget.assetId).toString(),
               headers: api.client.authController.authHeaders,
             ) as ImageProvider<NetworkImage>,
           errorBuilder: (context, error, stackTrace) {

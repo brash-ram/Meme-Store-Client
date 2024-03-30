@@ -1,3 +1,4 @@
+export 'bloc/available_gallery_names_bloc.dart';
 export 'bloc/bloc_event.dart';
 export 'bloc/bloc_state.dart';
 export 'bloc/meme_bloc.dart';

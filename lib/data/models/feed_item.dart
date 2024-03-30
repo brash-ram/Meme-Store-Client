@@ -1,7 +1,5 @@
 import 'package:dart_mappable/dart_mappable.dart';
 
-import 'model_object.dart';
-
 part 'feed_item.mapper.dart';
 
 

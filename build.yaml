@@ -4,3 +4,7 @@ targets:
       dart_mappable_builder:
         options:
           generateMethods: [decode, encode, stringify]
+      reactive_forms_generator:
+        generate_for:
+          include:
+            - lib/widgets/screen/add_meme/form/*

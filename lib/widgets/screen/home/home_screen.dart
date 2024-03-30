@@ -14,40 +14,34 @@ class HomeShopScreen extends StatefulWidget {
 
 class _HomeShopScreenState extends State<HomeShopScreen> {
   @override
-  Widget build(BuildContext context) => Scaffold(
-    appBar: AppBar(
-      leading: const AutoLeadingButton(showIfChildCanPop: false),
-      title: const Text('Meme Store'),
-    ),
-    body: AutoTabsScaffold(
-      routes: const [
-        FeedRoute(),
-        AddMemeRoute(),
-        MyProfileRoute(),
+  Widget build(BuildContext context) => AutoTabsScaffold(
+    routes: const [
+      FeedRoute(),
+      AddMemeRoute(),
+      MyProfileRoute(),
+    ],
+    bottomNavigationBuilder: (_, tabsRouter) => BottomNavigationBar(
+      type: BottomNavigationBarType.fixed,
+      currentIndex: tabsRouter.activeIndex,
+      onTap: tabsRouter.setActiveIndex,
+      selectedItemColor: Theme.of(context).primaryColor,
+      unselectedItemColor: Theme.of(context).unselectedWidgetColor,
+      selectedLabelStyle: Theme.of(context).textTheme.labelMedium,
+      unselectedLabelStyle: Theme.of(context).textTheme.labelMedium,
+      items: const [
+        BottomNavigationBarItem(
+          icon: Icon(Icons.home),
+          label: 'Feed',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.add),
+          label: 'New meme',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.person),
+          label: 'My profile',
+        ),
       ],
-      bottomNavigationBuilder: (_, tabsRouter) => BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        currentIndex: tabsRouter.activeIndex,
-        onTap: tabsRouter.setActiveIndex,
-        selectedItemColor: Theme.of(context).primaryColor,
-        unselectedItemColor: Theme.of(context).unselectedWidgetColor,
-        selectedLabelStyle: Theme.of(context).textTheme.labelMedium,
-        unselectedLabelStyle: Theme.of(context).textTheme.labelMedium,
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Feed',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.add),
-            label: 'New meme',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'My profile',
-          ),
-        ],
-      ),
     ),
   );
 }

@@ -7,47 +7,11 @@ import 'package:rxdart/rxdart.dart';
 import '/data.dart';
 import '/logging.dart';
 import 'api_client.dart';
+import 'cache_dates.dart';
+import 'refs_counter.dart';
+
 
 typedef CacheId = (Type type, int id);
-
-extension type RefsCounter<T extends Object>._(Expando<int> _refsCount) {
-  factory RefsCounter() => RefsCounter._(Expando());
-
-  @pragma('vm:prefer-inline')
-  @pragma('dart2js:tryInline')
-  int _changeRefsCount(T object, int diff) =>
-    _refsCount[object] = getCurrent(object) + diff;
-
-  @pragma('vm:prefer-inline')
-  @pragma('dart2js:tryInline')
-  int getCurrent(T object) => _refsCount[object] ?? 0;
-
-  @pragma('vm:prefer-inline')
-  @pragma('dart2js:tryInline')
-  int operator+(T object) => increase(object);
-  
-  @pragma('vm:prefer-inline')
-  @pragma('dart2js:tryInline')
-  int operator-(T object) => decrease(object);
-
-  @pragma('vm:prefer-inline')
-  @pragma('dart2js:tryInline')
-  int increase(T object) => _changeRefsCount(object, 1);
-
-  @pragma('vm:prefer-inline')
-  @pragma('dart2js:tryInline')
-  int decrease(T object) => _changeRefsCount(object, -1);
-}
-
-extension type CacheDates<T extends Object>._(Expando<DateTime> _cacheDate) {
-  factory CacheDates() => CacheDates._(Expando());
-
-  static final _zeroTime = DateTime.fromMillisecondsSinceEpoch(0);
-
-  DateTime get(T object) => _cacheDate[object] ?? _zeroTime;
-  void update(T object) => _cacheDate[object] = DateTime.now();
-  void reset(T object) => _cacheDate[object] = null;
-}
 
 class ApiRepository {
   ApiRepository({
@@ -194,11 +158,6 @@ class ApiRepository {
       // (galleryId & 0xffff) << 16 | (memeId & 0xffff),
     );
 
-  Uri getAssetUri(int assetId) => client.getAssetUri(assetId);
-
-  Future<List<FeedItem>> getFeed(int offset, int limit, FeedType type) =>
-    client.getFeed(offset, limit, type);
-
   Future<void> fetchMemeTags(int galleryId, int memeId) =>
     _wrapFetchCall(
       (id) async => client.getMemeTags(galleryId, memeId),
@@ -216,6 +175,7 @@ class ApiRepository {
       _commitObject(memeId, await client.voteForMemeTag(galleryId, memeId, tagId, vote));
     } catch (error, stackTrace) {
       _commitError<List<MemeTag>>(memeId, error, stackTrace);
+      rethrow;
     }
   }
 
@@ -231,15 +191,15 @@ class ApiRepository {
       id,
     );
 
-  Future<void> fetchMyTenant() =>
+  Future<void> fetchMyTenantProfile() =>
     _wrapFetchCall(
-      (id) async => client.getMyTenant(),
+      (id) async => client.getMyTenantProfile(),
       -1,
     );
 
-  Stream<Tenant> getMyTenant() =>
+  Stream<TenantProfile> getMyTenantProfile() =>
     _createDataStream(
-      (id) async => fetchMyTenant(),
+      (id) async => fetchMyTenantProfile(),
       -1,
     );
 
@@ -249,9 +209,31 @@ class ApiRepository {
       -1,
     );
 
-  Stream<Gallery> getAvailableGalleryNames() =>
+  Stream<List<AvailableGalleryName>> getAvailableGalleryNames() =>
     _createDataStream(
       (id) async => fetchAvailableGalleryNames(),
       -1,
     );
+
+  Uri getAssetUri(int assetId) => client.getAssetUri(assetId);
+
+  Future<List<FeedItem>> getFeed(int offset, int limit, FeedType type) =>
+    client.getFeed(offset, limit, type);
+
+  Future<AssetTemporaryTicket> uploadAsset(Uint8List data, AssetType type) =>
+    client.uploadAsset(data, type);
+
+  Future<Meme> createMeme({
+    required RequestBodyCreateMeme meme,
+    required AssetTemporaryTicket assetTicket,
+    required int galleryId,
+  }) async {
+    final newMeme = await client.createMeme(
+      meme: meme,
+      assetTicket: assetTicket,
+      galleryId: galleryId,
+    );
+    _commitObject(newMeme.id, newMeme);
+    return newMeme;
+  }
 }

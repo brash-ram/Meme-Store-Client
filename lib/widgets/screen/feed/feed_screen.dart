@@ -23,15 +23,15 @@ class _FeedScreenState extends State<FeedScreen> with TickerProviderStateMixin {
 
   @override
   void dispose() {
-    _tabController
-      .dispose();
+    _tabController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) => Scaffold(
     appBar: AppBar(
-      title: TabBar(
+      title: const Text('Feed'),
+      bottom: TabBar(
         controller: _tabController,
         tabs: const <Widget>[
           Tab(
@@ -41,20 +41,18 @@ class _FeedScreenState extends State<FeedScreen> with TickerProviderStateMixin {
           ),
           Tab(
             child: Text(
-                'Рекомендованные',
+              'Рекомендованные',
             ),
           ),
         ],
       ),
     ),
-    body: SafeArea(
-        child: TabBarView(
-          controller: _tabController,
-          children: const [
-            Feed(type: FeedType.latest),
-            Feed(type: FeedType.recommended),
-          ],
-        ),
-    )
+    body: TabBarView(
+      controller: _tabController,
+      children: const [
+        Feed(type: FeedType.latest),
+        Feed(type: FeedType.recommended),
+      ],
+    ),
   );
 }

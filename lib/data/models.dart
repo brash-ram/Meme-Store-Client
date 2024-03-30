@@ -1,3 +1,4 @@
+export 'models/asset_temporary_ticket.dart';
 export 'models/assets.dart';
 export 'models/available_gallery_name.dart';
 export 'models/feed_item.dart';
@@ -5,6 +6,8 @@ export 'models/gallery.dart';
 export 'models/meme.dart';
 export 'models/meme_tag.dart';
 export 'models/model_object.dart';
+export 'models/request_body_create_meme.dart';
+export 'models/request_body_vote.dart';
 export 'models/response.dart';
 export 'models/tag.dart';
 export 'models/tenant_profiles.dart';

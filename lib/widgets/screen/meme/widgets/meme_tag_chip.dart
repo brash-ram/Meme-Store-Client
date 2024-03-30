@@ -19,10 +19,10 @@ class MemeTagChip extends StatelessWidget {
     return Material(
       shape: RoundedRectangleBorder(
         side: BorderSide(
-            color: Theme.of(context).colorScheme.outline,
-            width: 1,
+          color: Theme.of(context).colorScheme.outline,
+          width: 1,
         ),
-          borderRadius: const BorderRadius.all(Radius.circular(16)),
+        borderRadius: const BorderRadius.all(Radius.circular(12.0)),
       ),
       borderOnForeground: true,
       type: MaterialType.card,
@@ -49,7 +49,7 @@ class MemeTagChip extends StatelessWidget {
               tag.myVote == VoteType.up
                 ? null
                 : VoteType.up,
-            ),
+            ).ignore(),
           ),
           IconButton(
             splashRadius: 25,
@@ -67,7 +67,7 @@ class MemeTagChip extends StatelessWidget {
               tag.myVote == VoteType.down
                 ? null
                 : VoteType.down,
-            ),
+            ).ignore(),
           ),
         ],
       ),

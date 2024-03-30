@@ -1,10 +1,10 @@
+import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:talker_flutter/talker_flutter.dart';
-import 'package:flex_color_scheme/flex_color_scheme.dart';
 
 import 'api.dart';
-import 'core/app_scroll_behaviour.dart';
+import 'core/app_scroll_behavior.dart';
 import 'core/http/client_stub.dart'
   if (dart.library.io) 'core/http/client_io.dart'
   if (dart.library.js) 'core/http/client_web.dart';
@@ -33,7 +33,8 @@ class App extends StatelessWidget {
             baseUri: Uri.http('127.0.0.1:8080', 'api/v1'),
             client: context.read(),
             authController: context.read(),
-          )..authController.token = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWQiOjIsInJvbGVzIjpbIlVTRVJfUk9MRSJdLCJleHAiOjE3MjIwOTIzNjh9.3IHaGU8MhAu7H5xCI6p2aeu4862ohB0-bPlO6RFnEcMYeGqis2wxTWsCfT7fWPmf87NiTNZjlBUMBxx9ra-KEw',
+          )
+          ..authController.token = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWQiOjIsInJvbGVzIjpbIlVTRVJfUk9MRSJdLCJleHAiOjI3OTE2MDkyNTB9.iYTHjjqe2rCBvxbpOSHAbe6m-8_uP9reTi7Zx49hNJIy31xXJeOtB844oNXu9FjXYctCuxW7HVEnmHCT4hagFw',
         ),
         RepositoryProvider(
           create: (context) => ApiRepository(
@@ -45,8 +46,14 @@ class App extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         scrollBehavior: const AppScrollBehavior(),
         title: 'Meme Store',
-        theme: FlexThemeData.light(scheme: FlexScheme.indigo),
-        darkTheme: FlexThemeData.dark(scheme: FlexScheme.indigo),
+        theme: FlexThemeData.light(
+          scheme: FlexScheme.indigo,
+          useMaterial3: true,
+        ),
+        darkTheme: FlexThemeData.dark(
+          scheme: FlexScheme.indigo,
+          useMaterial3: true,
+        ),
         routerConfig: appRouter.config(
           navigatorObservers: () => [
             TalkerRouteObserver(talker),
