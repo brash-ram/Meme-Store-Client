@@ -62,14 +62,19 @@ class _FeedState extends State<Feed> with AutomaticKeepAliveClientMixin<Feed> {
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return PagedListView<int, FeedItem>(
-      pagingController: _pagingController,
-      builderDelegate: PagedChildBuilderDelegate<FeedItem>(
-        itemBuilder: (context, item, index) =>
-          BlocProvider(
-            create: (context) => MemeBloc(context.read(), item.galleryId, item.memeId),
-            child: const MemeCard(),
-          ),
+    return RefreshIndicator(
+      onRefresh: () async {
+        _pagingController.refresh();
+      },
+      child: PagedListView<int, FeedItem>(
+        pagingController: _pagingController,
+        builderDelegate: PagedChildBuilderDelegate<FeedItem>(
+          itemBuilder: (context, item, index) =>
+            BlocProvider(
+              create: (context) => MemeBloc(context.read(), item.galleryId, item.memeId),
+              child: const MemeCard(),
+            ),
+        ),
       ),
     );
   }

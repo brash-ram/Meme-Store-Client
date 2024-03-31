@@ -8,17 +8,27 @@ import 'core/app_scroll_behavior.dart';
 import 'core/http/client_stub.dart'
   if (dart.library.io) 'core/http/client_io.dart'
   if (dart.library.js) 'core/http/client_web.dart';
+import 'core/router/auth_guard.dart';
 import 'core/router/router.dart';
 import 'logging.dart';
+
+import 'telegram_auth/telegram_auth.dart'
+  if (dart.library.js_interop) 'telegram_auth/telegram_auth_web.dart' as telegram_auth_impl;
+import 'telegram_auth/telegram_auth.dart' as telegram_auth;
 
 class App extends StatelessWidget {
   const App({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final appRouter = AppRouter();
-    return MultiRepositoryProvider(
+  Widget build(BuildContext context) =>
+    MultiRepositoryProvider(
       providers: [
+        RepositoryProvider<telegram_auth.TelegramAuth>.value(
+          value: telegram_auth_impl.TelegramAuth(
+            botId: 6728196094,
+            redirectBaseUri: Uri.https('meme-store.null.moe', '/web_auth'),
+          ),
+        ),
         RepositoryProvider.value(
           value: talker,
         ),
@@ -42,24 +52,30 @@ class App extends StatelessWidget {
           ),
         ),
       ],
-      child: MaterialApp.router(
-        debugShowCheckedModeBanner: false,
-        scrollBehavior: const AppScrollBehavior(),
-        title: 'Meme Store',
-        theme: FlexThemeData.light(
-          scheme: FlexScheme.indigo,
-          useMaterial3: true,
-        ),
-        darkTheme: FlexThemeData.dark(
-          scheme: FlexScheme.indigo,
-          useMaterial3: true,
-        ),
-        routerConfig: appRouter.config(
-          navigatorObservers: () => [
-            TalkerRouteObserver(talker),
-          ],
-        ),
+      child: Builder(
+        builder: (context) {
+          final appRouter = AppRouter(
+            authGuard: AuthGuard(context.read()),
+          );
+          return MaterialApp.router(
+            debugShowCheckedModeBanner: false,
+            scrollBehavior: const AppScrollBehavior(),
+            title: 'Meme Store',
+            theme: FlexThemeData.light(
+              scheme: FlexScheme.indigo,
+              useMaterial3: true,
+            ),
+            darkTheme: FlexThemeData.dark(
+              scheme: FlexScheme.indigo,
+              useMaterial3: true,
+            ),
+            routerConfig: appRouter.config(
+              navigatorObservers: () => [
+                TalkerRouteObserver(talker),
+              ],
+            ),
+          );
+        },
       ),
     );
-  }
 }

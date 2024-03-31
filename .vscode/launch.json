@@ -1,0 +1,26 @@
+{
+	"configurations": [
+		{
+			"name": "Flutter (Chrome) // meme-store.null.moe",
+			"program": "lib/main.dart",
+			"deviceId": "chrome",
+			"request": "launch",
+			"type": "dart",
+			"toolArgs": [
+				"--web-hostname", "meme-store.null.moe",
+			],
+		},
+		{
+			// You must use patched Dart Dev Tools extension to allow custom
+			// domain debugging.
+			"name": "Flutter (web-server) // meme-store.null.moe",
+			"program": "lib/main.dart",
+			"deviceId": "web-server",
+			"request": "launch",
+			"type": "dart",
+			"toolArgs": [
+				"--web-hostname", "meme-store.null.moe",
+			],
+		},
+	],
+}

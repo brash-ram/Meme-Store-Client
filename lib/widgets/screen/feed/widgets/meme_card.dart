@@ -13,48 +13,57 @@ class MemeCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Card(
-    child: InkWell(
-      borderRadius: switch(Theme.of(context).cardTheme.shape) {
-        RoundedRectangleBorder(:final borderRadius) => borderRadius.resolve(null),
-        _ => const BorderRadius.all(Radius.circular(12.0)),
-      },
-      onTap: () async {
-        final meme = context.read<MemeBloc>();
-        await context.navigateTo(MemeRoute(galleryId: meme.galleryId, memeId: meme.memeId));
-      },
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(
-              height: 200,
-              child: MemeImage(interactive: false,),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: ModelBlocDataSelector<MemeBloc, Meme, String>(
-                selector: (value) => value.title,
-                builder: (context, state) => Text(state),
+    child: Stack(
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(
+                height: 200,
+                child: MemeImage(interactive: false,),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: ModelBlocDataSelector<MemeBloc, Meme, int>(
-                selector: (value) => value.authorId,
-                builder: (context, data) => TenantLink(id: data),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ModelBlocDataSelector<MemeBloc, Meme, String>(
+                  selector: (value) => value.title,
+                  builder: (context, state) => Text(state),
+                ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: MemeTags(
-                builder: (context, tag) =>
-                  MemeCardTag(tag: tag,),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ModelBlocDataSelector<MemeBloc, Meme, int>(
+                  selector: (value) => value.authorId,
+                  builder: (context, data) => TenantLink(id: data),
+                ),
               ),
-            ),
-          ],
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: MemeTags(
+                  builder: (context, tag) =>
+                    MemeCardTag(tag: tag,),
+                ),
+              ),
+            ],
+          ),
         ),
-      ),
+        Positioned.fill(
+          child: Material(
+            color: Colors.transparent,
+            child: InkWell(
+              borderRadius: switch(Theme.of(context).cardTheme.shape) {
+                RoundedRectangleBorder(:final borderRadius) => borderRadius.resolve(null),
+                _ => const BorderRadius.all(Radius.circular(12.0)),
+              },
+              onTap: () async {
+                final meme = context.read<MemeBloc>();
+                await context.navigateTo(MemeRoute(galleryId: meme.galleryId, memeId: meme.memeId));
+              },
+            ),
+          ),
+        ),
+      ],
     ),
   );
 }

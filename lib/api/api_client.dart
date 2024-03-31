@@ -2,7 +2,6 @@ import 'package:dart_mappable/dart_mappable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
-import '../data_layer_library.dart';
 import '/data.dart';
 import '/logging.dart';
 import 'api_exception.dart';
@@ -114,7 +113,8 @@ class ApiClient {
     )
     .then((value) => value.result);
 
-  Future<T> _post<T, B>(String path, B body, {
+  Future<T> _post<T, B>(String path, {
+    B? body,
     Map<String, String> queryParameters = const {},
     Map<String, String> headers = const {},
   }) =>
@@ -130,7 +130,8 @@ class ApiClient {
     )
     .then((value) => value.result);
 
-  Future<T> _postBinary<T>(String path, Uint8List bodyBytes, {
+  Future<T> _postBinary<T>(String path, {
+    Uint8List? bodyBytes,
     Map<String, String> queryParameters = const {},
     Map<String, String> headers = const {},
   }) =>
@@ -156,7 +157,7 @@ class ApiClient {
   }) async =>
     _post(
       '/meme/create',
-      meme,
+      body: meme,
       queryParameters: {
         'asset': assetTicket.temporaryTicket,
         'gallery_id': galleryId.toString(),
@@ -170,7 +171,7 @@ class ApiClient {
     _get('/meme/${galleryId}_$memeId/tags');
 
   Future<List<MemeTag>> voteForMemeTag(int galleryId, int memeId, int tagId, VoteType? vote) =>
-    _post('/meme/${galleryId}_$memeId/vote/$tagId', RequestBodyVote(type: vote));
+    _post('/meme/${galleryId}_$memeId/vote/$tagId', body: RequestBodyVote(type: vote));
 
   Future<Tenant> getMyTenantProfile() =>
     _get('/tenant/my_profile');
@@ -198,11 +199,14 @@ class ApiClient {
   Future<AssetTemporaryTicket> uploadAsset(Uint8List data, AssetType type) =>
     _postBinary(
       '/asset/upload',
-      data,
+      bodyBytes: data,
       queryParameters: const { 'type': 'IMAGE' },
     );
 
   Uri getAssetUri(int assetId) => baseUri.replace(
     path: '${baseUri.path}/asset/$assetId',
   );
+
+  Future<AuthResult> auth(int telegramUserId, RequestBodyAuth bodyAuth) =>
+    _post('/service/tg/external_user/$telegramUserId/auth', body: bodyAuth);
 }

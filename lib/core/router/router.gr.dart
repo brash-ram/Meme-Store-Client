@@ -33,6 +33,17 @@ abstract class _$AppRouter extends RootStackRouter {
         ),
       );
     },
+    AuthRoute.name: (routeData) {
+      final args =
+          routeData.argsAs<AuthRouteArgs>(orElse: () => const AuthRouteArgs());
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: AuthScreen(
+          key: args.key,
+          onResult: args.onResult,
+        ),
+      );
+    },
     FeedRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -137,6 +148,43 @@ class AssetRouteArgs {
   @override
   String toString() {
     return 'AssetRouteArgs{assetId: $assetId, key: $key}';
+  }
+}
+
+/// generated route for
+/// [AuthScreen]
+class AuthRoute extends PageRouteInfo<AuthRouteArgs> {
+  AuthRoute({
+    Key? key,
+    void Function(bool)? onResult,
+    List<PageRouteInfo>? children,
+  }) : super(
+          AuthRoute.name,
+          args: AuthRouteArgs(
+            key: key,
+            onResult: onResult,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'AuthRoute';
+
+  static const PageInfo<AuthRouteArgs> page = PageInfo<AuthRouteArgs>(name);
+}
+
+class AuthRouteArgs {
+  const AuthRouteArgs({
+    this.key,
+    this.onResult,
+  });
+
+  final Key? key;
+
+  final void Function(bool)? onResult;
+
+  @override
+  String toString() {
+    return 'AuthRouteArgs{key: $key, onResult: $onResult}';
   }
 }
 

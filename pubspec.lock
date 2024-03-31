@@ -61,10 +61,10 @@ packages:
     dependency: "direct main"
     description:
       name: bloc
-      sha256: f53a110e3b48dcd78136c10daa5d51512443cea5e1348c9d80a320095fa2db9e
+      sha256: "106842ad6569f0b60297619e9e0b1885c2fb9bf84812935490e6c5275777804e"
       url: "https://pub.dev"
     source: hosted
-    version: "8.1.3"
+    version: "8.1.4"
   boolean_selector:
     dependency: transitive
     description:
@@ -109,10 +109,10 @@ packages:
     dependency: "direct dev"
     description:
       name: build_runner
-      sha256: "581bacf68f89ec8792f5e5a0b2c4decd1c948e97ce659dc783688c8a88fbec21"
+      sha256: "3ac61a79bfb6f6cc11f693591063a7f19a7af628dc52f141743edac5c16e8c22"
       url: "https://pub.dev"
     source: hosted
-    version: "2.4.8"
+    version: "2.4.9"
   build_runner_core:
     dependency: transitive
     description:
@@ -306,18 +306,18 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_bloc
-      sha256: "87325da1ac757fcc4813e6b34ed5dd61169973871fdf181d6c2109dd6935ece1"
+      sha256: f0ecf6e6eb955193ca60af2d5ca39565a86b8a142452c5b24d96fb477428f4d2
       url: "https://pub.dev"
     source: hosted
-    version: "8.1.4"
+    version: "8.1.5"
   flutter_lints:
     dependency: transitive
     description:
       name: flutter_lints
-      sha256: e2a421b7e59244faef694ba7b30562e489c2b489866e505074eb005cd7060db7
+      sha256: "9e8c3858111da373efc5aa341de011d9bd23e2c5c5e0c62bccf32438e192d7b1"
       url: "https://pub.dev"
     source: hosted
-    version: "3.0.1"
+    version: "3.0.2"
   flutter_plugin_android_lifecycle:
     dependency: transitive
     description:
@@ -359,10 +359,10 @@ packages:
     dependency: transitive
     description:
       name: frontend_server_client
-      sha256: "408e3ca148b31c20282ad6f37ebfa6f4bdc8fede5b74bc2f08d9d92b55db3612"
+      sha256: f64a0333a82f30b0cca061bc3d143813a486dc086b574bfb233b7c1372427694
       url: "https://pub.dev"
     source: hosted
-    version: "3.2.0"
+    version: "4.0.0"
   glob:
     dependency: transitive
     description:
@@ -431,10 +431,10 @@ packages:
     dependency: transitive
     description:
       name: intl
-      sha256: "3bc132a9dbce73a7e4a21a17d06e1878839ffbf975568bc875c60537824b0c4d"
+      sha256: d6f56758b7d3014a48af9701c085700aac781a92a87a62b1333b46d8879661cf
       url: "https://pub.dev"
     source: hosted
-    version: "0.18.1"
+    version: "0.19.0"
   io:
     dependency: transitive
     description:
@@ -680,10 +680,10 @@ packages:
     dependency: "direct dev"
     description:
       name: reactive_forms_generator
-      sha256: fca44d20a67c8901f30b1f26dc239fa3f6afe199e025d65472e467652ca8602f
+      sha256: "162ba1b331e43657cd128629feec6473e8ec26fa96944714b0c08b12beba4df1"
       url: "https://pub.dev"
     source: hosted
-    version: "4.5.2"
+    version: "4.8.0"
   recase:
     dependency: transitive
     description:
@@ -704,10 +704,10 @@ packages:
     dependency: transitive
     description:
       name: share_plus
-      sha256: "3ef39599b00059db0990ca2e30fca0a29d8b37aae924d60063f8e0184cf20900"
+      sha256: "05ec043470319bfbabe0adbc90d3a84cbff0426b9d9f3a6e2ad3e131fa5fa629"
       url: "https://pub.dev"
     source: hosted
-    version: "7.2.2"
+    version: "8.0.2"
   share_plus_platform_interface:
     dependency: transitive
     description:
@@ -797,26 +797,26 @@ packages:
     dependency: "direct main"
     description:
       name: talker
-      sha256: a6c826385c0dd1f35cf574b21427e980a76fe38f08ddae13974114824a11e957
+      sha256: "048ecec6799fe1cae14e515d68c2afbc2d11fb53dcea1d837f0712d1eaf7b73f"
       url: "https://pub.dev"
     source: hosted
-    version: "4.1.0"
+    version: "4.1.3"
   talker_flutter:
     dependency: "direct main"
     description:
       name: talker_flutter
-      sha256: ceb4e475957c82c41f853caa9fce851f8ebeade787eccf0bfe3dea1834b83120
+      sha256: a74adf63123a748020c04715ca4809dbea9772fe193e52f799a4afbc5e943d14
       url: "https://pub.dev"
     source: hosted
-    version: "4.1.0"
+    version: "4.1.3"
   talker_logger:
     dependency: transitive
     description:
       name: talker_logger
-      sha256: "983a3ac0e3ee39ad37fb0d73c376c74bc3c57a2deab6e54bfec0895046c89c2a"
+      sha256: "23b640269a482ce260883dec8cf3618edb1959b93e2808dc7f7dea4c861e9875"
       url: "https://pub.dev"
     source: hosted
-    version: "4.1.0"
+    version: "4.1.3"
   term_glyph:
     dependency: transitive
     description:
@@ -946,7 +946,7 @@ packages:
     source: hosted
     version: "2.1.0"
   web:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: web
       sha256: "97da13628db363c635202ad97068d47c5b8aa555808e7a9411963c533b449b27"
@@ -965,10 +965,10 @@ packages:
     dependency: transitive
     description:
       name: win32
-      sha256: "8cb58b45c47dcb42ab3651533626161d6b67a2921917d8d429791f76972b3480"
+      sha256: "0a989dc7ca2bb51eac91e8fd00851297cfffd641aa7538b165c62637ca0eaa4a"
       url: "https://pub.dev"
     source: hosted
-    version: "5.3.0"
+    version: "5.4.0"
   xdg_directories:
     dependency: transitive
     description:
