@@ -55,7 +55,7 @@ class _TenantProfileGalleriesState extends State<TenantProfileGalleries> {
       //   final nextPageKey = pageKey + 1;
       //   _pagingController.appendPage(newItems, nextPageKey);
       // }
-    } catch (error, stack) {
+    } catch (error) {
       _pagingController.error = error;
 
     }
