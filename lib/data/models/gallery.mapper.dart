@@ -31,7 +31,7 @@ class GalleryMapper extends ClassMapperBase<Gallery> {
       Field('contributorIds', _$contributorIds, key: 'contributor_ids');
   static String _$name(Gallery v) => v.name;
   static const Field<Gallery, String> _f$name = Field('name', _$name);
-  static String _$description(Gallery v) => v.description;
+  static String? _$description(Gallery v) => v.description;
   static const Field<Gallery, String> _f$description =
       Field('description', _$description);
   static bool _$public(Gallery v) => v.public;

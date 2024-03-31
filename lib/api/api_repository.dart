@@ -203,6 +203,18 @@ class ApiRepository {
       -1,
     );
 
+  Future<void> fetchTenantProfile(int id) =>
+    _wrapFetchCall(
+      (id) async => client.getTenantProfile(id),
+      id,
+    );
+
+  Stream<TenantProfile> getTenantProfile(int id) =>
+    _createDataStream(
+      (id) async => fetchTenantProfile(id),
+      id,
+    );
+
   Future<void> fetchAvailableGalleryNames() =>
     _wrapFetchCall(
       (id) async => client.getAvailableGalleryNames(),
