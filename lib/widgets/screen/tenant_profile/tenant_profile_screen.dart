@@ -3,8 +3,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../component/tenant/tenant_profile_widget.dart';
 import '/data_layer_library.dart';
-
 
 @RoutePage()
 class TenantProfileScreen extends StatelessWidget {
@@ -17,11 +17,11 @@ class TenantProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => BlocProvider.value(
-    value: TenantBloc(context.read(), id),
+    value: TenantProfileBloc(context.read(), id),
     child: Scaffold(
       appBar: AppBar(
         leading: const AutoLeadingButton(),
-        title: ModelBlocDataSelector<TenantBloc, Tenant, String>(
+        title: ModelBlocDataSelector<TenantProfileBloc, TenantProfile, String>(
           selector: (value) => value.displayName,
           builder: (context, state) => Text(state),
         ),
@@ -46,7 +46,7 @@ class TenantProfileScreen extends StatelessWidget {
             ),
         ],
       ),
-      body: Text('Profile $id'),
+      body: const TenantProfileWidget(),
     ),
   );
 }

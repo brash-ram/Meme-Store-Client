@@ -28,7 +28,7 @@ class Gallery extends ModelObject with GalleryMappable {
   final String name;
 
   @MappableField(key: 'description')
-  final String description;
+  final String? description;
 
   @MappableField(key: 'public')
   final bool public;
