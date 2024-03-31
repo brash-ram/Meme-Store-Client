@@ -13,6 +13,7 @@ dependencies:
   dart_mappable: ^4.2.0
   equatable: ^2.0.5
   fetch_client: ^1.1.0-wasm
+  file_picker: ^8.0.0+1
   flex_color_scheme: ^7.3.1
   flutter:
     sdk: flutter
@@ -20,18 +21,16 @@ dependencies:
   flutter_svg: ^2.0.9
   global_configuration: ^2.0.0
   http: ^1.2.1
+  infinite_scroll_pagination: ^4.0.0
   lru_cache:
     git: https://github.com/Zekfad/lru_cache
   meta: ^1.12.0
   photo_view: ^0.14.0
+  reactive_forms: ^16.1.1
+  reactive_forms_annotations: ^4.3.0
   rxdart: ^0.27.7
   talker: ^4.1.0
   talker_flutter: ^4.1.0
-  infinite_scroll_pagination: ^4.0.0
-  form_bloc: ^0.31.0
-  reactive_forms: ^16.1.1
-  reactive_forms_annotations: ^4.3.0
-  file_picker: ^8.0.0+1
   web: ^0.5.1
 
 dev_dependencies:
