@@ -193,6 +193,15 @@ class ApiClient {
       },
     );
 
+  Future<List<FeedItem>> getGalleryMemes(int galleryId, int offset, int limit) =>
+      _get(
+        '/feed/gallery/$galleryId',
+        queryParameters: {
+        'offset': offset.toString(),
+        'limit': limit.toString(),
+        },
+      );
+
   Future<List<AvailableGalleryName>> getAvailableGalleryNames() =>
     _get('/gallery/available_names');
 

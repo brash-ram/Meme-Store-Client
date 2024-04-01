@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
-import '../../../../data_layer_library.dart';
+import '../../../data_layer_library.dart';
 import 'gallery_card.dart';
 
 class TenantProfileGalleries extends StatefulWidget {

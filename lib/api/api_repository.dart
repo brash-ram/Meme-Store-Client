@@ -263,6 +263,9 @@ class ApiRepository {
   Future<List<FeedItem>> getFeed(int offset, int limit, FeedType type) =>
     client.getFeed(offset, limit, type);
 
+  Future<List<FeedItem>> getGalleryMemes(int galleryId, int offset, int limit) =>
+    client.getGalleryMemes(galleryId, offset, limit);
+
   Future<AssetTemporaryTicket> uploadAsset(Uint8List data, AssetType type) =>
     client.uploadAsset(data, type);
 

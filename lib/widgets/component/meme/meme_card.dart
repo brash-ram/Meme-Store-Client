@@ -1,11 +1,11 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../core/router/router.dart';
-import '../../../component/asset/meme_image.dart';
-import '../../../component/meme/meme_card_tag.dart';
-import '../../../component/tenant/tenant_link.dart';
-import '../../meme/widgets/meme_tags.dart';
+import '../../../core/router/router.dart';
+import '../asset/meme_image.dart';
+import 'meme_card_tag.dart';
+import '../tenant/tenant_link.dart';
+import '../../screen/meme/widgets/meme_tags.dart';
 import '/data_layer_library.dart';
 
 class MemeCard extends StatelessWidget {

@@ -56,6 +56,19 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const FeedScreen(),
       );
     },
+    GalleryRoute.name: (routeData) {
+      final pathParams = routeData.inheritedPathParams;
+      final args = routeData.argsAs<GalleryRouteArgs>(
+          orElse: () =>
+              GalleryRouteArgs(galleryId: pathParams.getInt('galleryId')));
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: GalleryScreen(
+          galleryId: args.galleryId,
+          key: args.key,
+        ),
+      );
+    },
     HomeShopRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -220,6 +233,45 @@ class FeedRoute extends PageRouteInfo<void> {
   static const String name = 'FeedRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [GalleryScreen]
+class GalleryRoute extends PageRouteInfo<GalleryRouteArgs> {
+  GalleryRoute({
+    required int galleryId,
+    Key? key,
+    List<PageRouteInfo>? children,
+  }) : super(
+          GalleryRoute.name,
+          args: GalleryRouteArgs(
+            galleryId: galleryId,
+            key: key,
+          ),
+          rawPathParams: {'galleryId': galleryId},
+          initialChildren: children,
+        );
+
+  static const String name = 'GalleryRoute';
+
+  static const PageInfo<GalleryRouteArgs> page =
+      PageInfo<GalleryRouteArgs>(name);
+}
+
+class GalleryRouteArgs {
+  const GalleryRouteArgs({
+    required this.galleryId,
+    this.key,
+  });
+
+  final int galleryId;
+
+  final Key? key;
+
+  @override
+  String toString() {
+    return 'GalleryRouteArgs{galleryId: $galleryId, key: $key}';
+  }
 }
 
 /// generated route for

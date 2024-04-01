@@ -2,24 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
-import '/data_layer_library.dart';
-import '/logging.dart';
+import '../../../../data_layer_library.dart';
+import '../../../../logging.dart';
 import '../../../component/meme/meme_card.dart';
 
-class Feed extends StatefulWidget {
-  const Feed({required this.type, super.key});
-
-  final FeedType type;
+class GalleryMemeList extends StatefulWidget {
+  const GalleryMemeList({super.key});
 
   @override
-  State<Feed> createState() => _FeedState();
+  State<GalleryMemeList> createState() => _GalleryMemeListState();
 }
 
-class _FeedState extends State<Feed> with AutomaticKeepAliveClientMixin<Feed> {
+class _GalleryMemeListState extends State<GalleryMemeList> with AutomaticKeepAliveClientMixin<GalleryMemeList> {
   @override
   bool get wantKeepAlive => true;
 
-  static const _pageSize = 20;
+  static const _pageSize = 10;
 
   final PagingController<int, FeedItem> _pagingController = PagingController(
     firstPageKey: 0,
@@ -39,10 +37,11 @@ class _FeedState extends State<Feed> with AutomaticKeepAliveClientMixin<Feed> {
 
   Future<void> _fetchPage(int pageKey) async {
     try {
-      final newItems = await context.read<ApiRepository>().getFeed(
+      final galleryBloc = context.read<GalleryBloc>();
+      final newItems = await context.read<ApiRepository>().getGalleryMemes(
+        galleryBloc.id,
         pageKey,
         _pageSize,
-        widget.type,
       );
 
       if (mounted) {
@@ -52,7 +51,7 @@ class _FeedState extends State<Feed> with AutomaticKeepAliveClientMixin<Feed> {
           _pagingController.appendPage(newItems, pageKey + 1);
       }
     } catch (error, stackTrace) {
-      talker.warning('Failed to load feed page ${widget.type} $pageKey', error, stackTrace);
+      talker.warning('Failed to load gallery memes page $pageKey', error, stackTrace);
       if (mounted)
         _pagingController.error = error;
     }
@@ -70,10 +69,10 @@ class _FeedState extends State<Feed> with AutomaticKeepAliveClientMixin<Feed> {
         pagingController: _pagingController,
         builderDelegate: PagedChildBuilderDelegate<FeedItem>(
           itemBuilder: (context, item, index) =>
-            BlocProvider(
-              create: (context) => MemeBloc(context.read(), item.galleryId, item.memeId),
-              child: const MemeCard(),
-            ),
+              BlocProvider(
+                create: (context) => MemeBloc(context.read(), item.galleryId, item.memeId),
+                child: const MemeCard(),
+              ),
         ),
       ),
     );

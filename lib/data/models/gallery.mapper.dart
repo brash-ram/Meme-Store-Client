@@ -43,6 +43,9 @@ class GalleryMapper extends ClassMapperBase<Gallery> {
   static const Field<Gallery, bool> _f$currentTenantCanEdit = Field(
       'currentTenantCanEdit', _$currentTenantCanEdit,
       key: 'current_tenant_can_edit');
+  static int? _$previewId(Gallery v) => v.previewId;
+  static const Field<Gallery, int> _f$previewId =
+      Field('previewId', _$previewId, key: 'preview_id');
 
   @override
   final MappableFields<Gallery> fields = const {
@@ -54,6 +57,7 @@ class GalleryMapper extends ClassMapperBase<Gallery> {
     #public: _f$public,
     #ownedByExtremist: _f$ownedByExtremist,
     #currentTenantCanEdit: _f$currentTenantCanEdit,
+    #previewId: _f$previewId,
   };
 
   static Gallery _instantiate(DecodingData data) {
@@ -65,7 +69,8 @@ class GalleryMapper extends ClassMapperBase<Gallery> {
         description: data.dec(_f$description),
         public: data.dec(_f$public),
         ownedByExtremist: data.dec(_f$ownedByExtremist),
-        currentTenantCanEdit: data.dec(_f$currentTenantCanEdit));
+        currentTenantCanEdit: data.dec(_f$currentTenantCanEdit),
+        previewId: data.dec(_f$previewId));
   }
 
   @override

@@ -16,6 +16,7 @@ class Gallery extends ModelObject with GalleryMappable {
     required this.public,
     required this.ownedByExtremist,
     required this.currentTenantCanEdit,
+    required this.previewId,
   });
 
   @MappableField(key: 'owner_id')
@@ -38,4 +39,7 @@ class Gallery extends ModelObject with GalleryMappable {
 
   @MappableField(key: 'current_tenant_can_edit')
   final bool currentTenantCanEdit;
+
+  @MappableField(key: 'preview_id')
+  final int? previewId;
 }
