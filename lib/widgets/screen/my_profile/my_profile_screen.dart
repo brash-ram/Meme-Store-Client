@@ -3,7 +3,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../data_layer_library.dart';
+import '../../component/tenant/tenant_profile_widget.dart';
+import '/data_layer_library.dart';
 
 
 @RoutePage()
@@ -12,10 +13,10 @@ class MyProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => BlocProvider.value(
-    value: TenantProfileBloc(context.read(), 1),
+    value: TenantProfileBloc(context.read(), null),
     child: Scaffold(
       appBar: AppBar(
-        leading: const AutoLeadingButton(),
+        automaticallyImplyLeading: false,
         title: ModelBlocDataSelector<TenantProfileBloc, TenantProfile, String>(
           selector: (value) => value.displayName,
           builder: (context, state) => Text(state),
@@ -24,24 +25,24 @@ class MyProfileScreen extends StatelessWidget {
           if (kDebugMode)
             Builder(
               builder: (context) =>
-                  IconButton(
-                    icon: const Icon(Icons.refresh),
-                    tooltip: 'Refresh',
-                    onPressed: () async => context.read<TenantBloc>().update(),
-                  ),
+                IconButton(
+                  icon: const Icon(Icons.refresh),
+                  tooltip: 'Refresh',
+                  onPressed: () async => context.read<TenantProfileBloc>().update(),
+                ),
             ),
           if (kDebugMode)
             Builder(
               builder: (context) =>
-                  IconButton(
-                    icon: const Icon(Icons.rotate_right),
-                    tooltip: 'Reset',
-                    onPressed: () async => context.read<TenantBloc>().reset(),
-                  ),
+                IconButton(
+                  icon: const Icon(Icons.rotate_right),
+                  tooltip: 'Reset',
+                  onPressed: () async => context.read<TenantProfileBloc>().reset(),
+                ),
             ),
         ],
       ),
-      body: Text('Profile 1'),
+      body: const TenantProfileWidget(),
     ),
   );
 }

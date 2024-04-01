@@ -173,7 +173,7 @@ class ApiClient {
   Future<List<MemeTag>> voteForMemeTag(int galleryId, int memeId, int tagId, VoteType? vote) =>
     _post('/meme/${galleryId}_$memeId/vote/$tagId', body: RequestBodyVote(type: vote));
 
-  Future<Tenant> getMyTenantProfile() =>
+  Future<TenantProfile> getMyTenantProfile() =>
     _get('/tenant/my_profile');
 
   Future<Tenant> getTenant(int id) =>

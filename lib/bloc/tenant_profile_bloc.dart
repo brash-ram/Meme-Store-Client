@@ -1,14 +1,18 @@
 import '../data_layer_library.dart';
 
 class TenantProfileBloc extends ModelBloc<TenantProfile> {
-  TenantProfileBloc(this.api, this.id);
+  TenantProfileBloc(this.api, [ this.id, ]);
 
   final ApiRepository api;
-  final int id;
+  final int? id;
 
   @override
-  Stream<TenantProfile> get dataStream => api.getTenantProfile(id);
+  Stream<TenantProfile> get dataStream => id == null
+    ? api.getMyTenantProfile()
+    : api.getTenantProfile(id!);
 
   @override
-  Future<void> fetchNewData() async => api.fetchTenantProfile(id);
+  Future<void> fetchNewData() async => id == null
+    ? api.fetchMyTenantProfile()
+    : api.fetchTenantProfile(id!);
 }

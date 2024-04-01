@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math' as math;
 
 import 'package:flutter/foundation.dart';
 import 'package:lru_cache/lru_cache.dart';
@@ -18,7 +19,10 @@ class ApiRepository {
     required this.client,
   });
 
+  static final _random = math.Random(1337);
+
   static const cacheValidity = Duration(seconds: 1);
+  static const useDelayedRemoval = true;
 
   final ApiClient client;
 
@@ -27,6 +31,8 @@ class ApiRepository {
   final controllers = <CacheId, BehaviorSubject<Object>>{};
   final controllersListenersCounter = RefsCounter<BehaviorSubject<Object>>();
   final requestsLocks = <CacheId, Future<void>>{};
+  // Delayed removals offset cleanup work at some near future time
+  final delayedRemovals = Expando<Timer>();
 
   Stream<T> _prepareDataStream<T extends Object>(BehaviorSubject<T> subject, CacheId id) =>
     subject.stream.transform(
@@ -46,7 +52,7 @@ class ApiRepository {
               ..onResume = subscription.resume
               ..onCancel = () async {
                 if (controllersListenersCounter.decrease(subject) == 0)
-                  await _removeUnusedController(subject, id);
+                  await _scheduleRemoveUnusedController(subject, id);
                 return subscription.cancel();
               };
           };
@@ -55,7 +61,28 @@ class ApiRepository {
       ),
     );
   
+  FutureOr<void> _scheduleRemoveUnusedController<T extends Object>(BehaviorSubject<T> controller, CacheId id) {
+    if (!useDelayedRemoval)
+      return _removeUnusedController(controller, id);
+
+    if (delayedRemovals[controller] != null)
+      return null;
+
+    final delay = Duration(milliseconds: 800 + _random.nextInt(200));
+    delayedRemovals[controller] = Timer(
+      delay,
+      () async => _removeUnusedController(controller, id),
+    );
+  }
+
   Future<void> _removeUnusedController<T extends Object>(BehaviorSubject<T> controller, CacheId id) async {
+    if (useDelayedRemoval) {
+      // check if removal is canceled
+      if (delayedRemovals[controller] == null)
+        return;
+
+      delayedRemovals[controller] = null;
+    }
     assert(controllers[id] == controller, 'Requested removal of unknown controller.');
     if (controllers[id] == controller)
       controllers.remove(id);
@@ -78,6 +105,10 @@ class ApiRepository {
         return BehaviorSubject<T>();
       },
     ) as BehaviorSubject<T>;
+    if (useDelayedRemoval) {
+      delayedRemovals[controller]?.cancel();
+      delayedRemovals[controller] = null;
+    }
 
     final cached = cache[cacheId] as T?;
     if (kDebugMode && cached != null && controller.hasValue)

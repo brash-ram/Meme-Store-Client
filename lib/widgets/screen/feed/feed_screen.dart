@@ -30,6 +30,7 @@ class _FeedScreenState extends State<FeedScreen> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) => Scaffold(
     appBar: AppBar(
+      automaticallyImplyLeading: false,
       title: const Text('Feed'),
       bottom: TabBar(
         controller: _tabController,

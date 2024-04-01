@@ -32,7 +32,7 @@ class TenantProfileScreen extends StatelessWidget {
                 IconButton(
                   icon: const Icon(Icons.refresh),
                   tooltip: 'Refresh',
-                  onPressed: () async => context.read<TenantBloc>().update(),
+                  onPressed: () async => context.read<TenantProfileBloc>().update(),
                 ),
             ),
           if (kDebugMode)
@@ -41,7 +41,7 @@ class TenantProfileScreen extends StatelessWidget {
                 IconButton(
                   icon: const Icon(Icons.rotate_right),
                   tooltip: 'Reset',
-                  onPressed: () async => context.read<TenantBloc>().reset(),
+                  onPressed: () async => context.read<TenantProfileBloc>().reset(),
                 ),
             ),
         ],

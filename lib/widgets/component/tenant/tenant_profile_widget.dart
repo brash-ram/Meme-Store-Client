@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../../../data_layer_library.dart';
+import '/data_layer_library.dart';
 import 'tenant_profile/tenant_profile_galleries.dart';
+
 
 class TenantProfileWidget extends StatelessWidget {
   const TenantProfileWidget({super.key});

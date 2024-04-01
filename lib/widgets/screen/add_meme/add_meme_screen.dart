@@ -31,6 +31,12 @@ class _AddMemeForWidgetState extends State<AddMemeFormWidget> {
     final group = form.form
       ..markAsDisabled();
     try {
+      final tags = <String>[];
+      final description = data.description.replaceAllMapped(RegExp(r'#\w+'), (match) {
+        tags.add(match.input.substring(match.start + 1, match.end));
+        return '';
+      }).trim();
+
       final assetTicket = await api.uploadAsset(data.image.files.single, AssetType.image);
       // await Future.delayed(Duration(seconds: 1));
       final newMeme = await api.createMeme(
@@ -38,10 +44,8 @@ class _AddMemeForWidgetState extends State<AddMemeFormWidget> {
         galleryId: data.galleryId,
         meme: RequestBodyCreateMeme(
           title: data.title,
-          description: data.description,
-          tags: [
-            'debug',
-          ],
+          description: description,
+          tags: tags,
         ),
       );
       group.markAsPristine();
@@ -294,6 +298,7 @@ class AddMemeScreen extends StatelessWidget {
       create: (context) => AvailableGalleryNamesBloc(context.read()),
       child: Scaffold(
         appBar: AppBar(
+          automaticallyImplyLeading: false,
           title: const Text('Add meme'),
           actions: [
             Builder(

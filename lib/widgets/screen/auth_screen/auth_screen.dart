@@ -5,10 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:photo_view/photo_view.dart';
 
-// import '/data_layer_library.dart';
-import '../../../core/router/router.dart';
-import '../../../data.dart';
 import '/api.dart';
+import '/core/router/router.dart';
+import '/data_layer_library.dart';
 import '/logging.dart';
 
 import '/telegram_auth/telegram_auth.dart';
@@ -40,8 +39,10 @@ class _AuthScreenState extends State<AuthScreen> {
   @override
   void initState() {
     super.initState();
-    if (context.read<ApiClient>().authController.hasAuth)
+    if (context.read<ApiClient>().authController.hasAuth) {
+      talker.verbose('Authentication skipped');
       unawaited(_onAuthDone());
+    }
   }
 
   @override
