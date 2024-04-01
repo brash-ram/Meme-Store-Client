@@ -136,7 +136,10 @@ class _AuthScreenState extends State<AuthScreen> {
                                 username: tgAuth.username ?? 'TGUser-${tgAuth.id}',
                               ),
                             );
-                            api.authController.token = auth.accessToken;
+                            api.authController.setAuth(
+                              tgAuth,
+                              auth.accessToken,
+                            );
                             talker.info('Authentication successful');
                           } catch (error, stackTrace) {
                             talker.warning('Authentication failed', error, stackTrace);

@@ -44,6 +44,12 @@ abstract class _$AppRouter extends RootStackRouter {
         ),
       );
     },
+    BanRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const BanScreen(),
+      );
+    },
     FeedRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -186,6 +192,20 @@ class AuthRouteArgs {
   String toString() {
     return 'AuthRouteArgs{key: $key, onResult: $onResult}';
   }
+}
+
+/// generated route for
+/// [BanScreen]
+class BanRoute extends PageRouteInfo<void> {
+  const BanRoute({List<PageRouteInfo>? children})
+      : super(
+          BanRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'BanRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
 }
 
 /// generated route for

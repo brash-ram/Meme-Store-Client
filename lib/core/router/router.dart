@@ -7,6 +7,7 @@ import '../../widgets/screen/auth_screen/auth_screen.dart';
 import '../../widgets/screen/feed/feed_screen.dart';
 import '../../widgets/screen/home/home_screen.dart';
 import '../../widgets/screen/logs/logs_screen.dart';
+import '../../widgets/screen/ban/ban_screen.dart';
 import '../../widgets/screen/meme/meme_screen.dart';
 import '../../widgets/screen/my_profile/my_profile_screen.dart';
 import '../../widgets/screen/tenant_profile/tenant_profile_screen.dart';
@@ -30,6 +31,11 @@ class AppRouter extends _$AppRouter {
       path: '/auth',
       initial: true,
       page: AuthRoute.page,
+    ),
+    AutoRoute(
+      path: '/ban',
+      page: BanRoute.page,
+      guards: [ authGuard, ],
     ),
     AutoRoute(
       page: LogsRoute.page,

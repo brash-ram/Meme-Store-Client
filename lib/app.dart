@@ -15,6 +15,7 @@ import 'logging.dart';
 import 'telegram_auth/telegram_auth.dart'
   if (dart.library.js_interop) 'telegram_auth/telegram_auth_web.dart' as telegram_auth_impl;
 import 'telegram_auth/telegram_auth.dart' as telegram_auth;
+import 'telegram_auth/telegram_events.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
@@ -44,7 +45,18 @@ class App extends StatelessWidget {
             client: context.read(),
             authController: context.read(),
           )
-          ..authController.token = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWQiOjIsInJvbGVzIjpbIlVTRVJfUk9MRSJdLCJleHAiOjI3OTE2MDkyNTB9.iYTHjjqe2rCBvxbpOSHAbe6m-8_uP9reTi7Zx49hNJIy31xXJeOtB844oNXu9FjXYctCuxW7HVEnmHCT4hagFw',
+          ..authController.setAuth(
+            TelegramAuthData(
+              id: -1,
+              authDate: DateTime.now(),
+              firstName: 'Debug',
+              lastName: 'User',
+              hash: '',
+              photoUrl: null,
+              username: 'DebugTgUser',
+            ),
+            'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWQiOjIsInJvbGVzIjpbIlVTRVJfUk9MRSJdLCJleHAiOjI3OTE2MDkyNTB9.iYTHjjqe2rCBvxbpOSHAbe6m-8_uP9reTi7Zx49hNJIy31xXJeOtB844oNXu9FjXYctCuxW7HVEnmHCT4hagFw',
+          ),
         ),
         RepositoryProvider(
           create: (context) => ApiRepository(
