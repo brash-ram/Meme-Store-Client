@@ -32,7 +32,7 @@ class _AddMemeForWidgetState extends State<AddMemeFormWidget> {
       ..markAsDisabled();
     try {
       final tags = <String>[];
-      final description = data.description.replaceAllMapped(RegExp(r'#\w+'), (match) {
+      final description = data.description.replaceAllMapped(RegExp(r'#[\w\-]+'), (match) {
         tags.add(match.input.substring(match.start + 1, match.end));
         return '';
       }).trim();
